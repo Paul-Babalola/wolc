@@ -9,6 +9,7 @@ const form = reactive({
   email: '',
   subject: '',
   message: '',
+  website: '',
 })
 
 const state = ref<'idle' | 'sending' | 'done' | 'error'>('idle')
@@ -27,6 +28,7 @@ async function submit() {
         email: form.email,
         subject: form.subject || undefined,
         message: form.message,
+        website: form.website || undefined,
       },
     })
     state.value = 'done'
@@ -38,7 +40,7 @@ async function submit() {
 
 const {images} = useSiteImages()
 
-useSeoMeta({
+useSiteSeo({
   title: 'Contact',
   description: 'Get connected with RCCG Word of Life Center in Silver Spring, MD.',
 })
@@ -104,23 +106,76 @@ useSeoMeta({
           <div class="form-panel">
             <h2>Write to us</h2>
             <template v-if="state !== 'done'">
-              <div class="form-stack">
-                <div class="form-row">
-                  <input v-model="form.firstName" class="form-field" placeholder="First name" required>
-                  <input v-model="form.lastName" class="form-field" placeholder="Last name" required>
+              <form class="form-stack" @submit.prevent="submit">
+                <div class="form-honeypot" aria-hidden="true">
+                  <label for="contact-website">Website</label>
+                  <input
+                    id="contact-website"
+                    v-model="form.website"
+                    type="text"
+                    name="website"
+                    tabindex="-1"
+                    autocomplete="off"
+                  >
                 </div>
-                <input v-model="form.email" class="form-field" type="email" placeholder="Email address" required>
-                <input v-model="form.subject" class="form-field" placeholder="Subject">
-                <textarea v-model="form.message" class="form-field" rows="6" placeholder="Your message" required />
+                <div class="form-row">
+                  <label class="field-block">
+                    <span class="field-label">First name</span>
+                    <input
+                      v-model="form.firstName"
+                      class="form-field"
+                      type="text"
+                      name="firstName"
+                      autocomplete="given-name"
+                      required
+                    >
+                  </label>
+                  <label class="field-block">
+                    <span class="field-label">Last name</span>
+                    <input
+                      v-model="form.lastName"
+                      class="form-field"
+                      type="text"
+                      name="lastName"
+                      autocomplete="family-name"
+                      required
+                    >
+                  </label>
+                </div>
+                <label class="field-block">
+                  <span class="field-label">Email address</span>
+                  <input
+                    v-model="form.email"
+                    class="form-field"
+                    type="email"
+                    name="email"
+                    autocomplete="email"
+                    required
+                  >
+                </label>
+                <label class="field-block">
+                  <span class="field-label">Subject</span>
+                  <input v-model="form.subject" class="form-field" type="text" name="subject">
+                </label>
+                <label class="field-block">
+                  <span class="field-label">Your message</span>
+                  <textarea
+                    v-model="form.message"
+                    class="form-field"
+                    name="message"
+                    rows="6"
+                    required
+                  />
+                </label>
                 <button
+                  type="submit"
                   class="btn btn-primary"
                   :disabled="state === 'sending' || !form.firstName || !form.lastName || !form.email || !form.message"
-                  @click="submit"
                 >
                   {{ state === 'sending' ? 'Sending…' : 'Submit form →' }}
                 </button>
                 <p v-if="state === 'error'" class="status-err">{{ errorMsg }}</p>
-              </div>
+              </form>
             </template>
             <p v-else class="status-ok">Thank you! We'll be in touch soon.</p>
           </div>
@@ -194,6 +249,18 @@ useSeoMeta({
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+}
+.field-block {
+  display: block;
+}
+.field-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
 }
 @media (max-width: 900px) {
   .contact-grid { grid-template-columns: 1fr; }

@@ -1,11 +1,10 @@
 import type {H3Event} from 'h3'
 import {z} from 'zod'
 
-export async function readValidatedJson<T extends z.ZodTypeAny>(
-  event: H3Event,
+export function parseValidatedJson<T extends z.ZodTypeAny>(
+  body: unknown,
   schema: T,
-): Promise<z.infer<T>> {
-  const body = await readBody(event)
+): z.infer<T> {
   const result = schema.safeParse(body)
   if (!result.success) {
     const first = result.error.issues[0]
@@ -15,4 +14,12 @@ export async function readValidatedJson<T extends z.ZodTypeAny>(
     })
   }
   return result.data
+}
+
+export async function readValidatedJson<T extends z.ZodTypeAny>(
+  event: H3Event,
+  schema: T,
+): Promise<z.infer<T>> {
+  const body = await readBody(event)
+  return parseValidatedJson(body, schema)
 }

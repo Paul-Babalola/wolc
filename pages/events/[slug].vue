@@ -137,7 +137,7 @@ const googleCalendarUrl = computed(() => {
   return `https://calendar.google.com/calendar/render?${params.toString()}`
 })
 
-const form = reactive({name: '', email: '', guests: 1})
+const form = reactive({name: '', email: '', guests: 1, website: ''})
 const state = ref<'idle' | 'sending' | 'done' | 'error'>('idle')
 const errorMsg = ref('')
 
@@ -153,6 +153,7 @@ async function submitRsvp() {
         name: form.name,
         email: form.email,
         guests: Number(form.guests),
+        website: form.website || undefined,
       },
     })
     state.value = 'done'
@@ -166,6 +167,17 @@ useSeoMeta({
   title: () => event.value?.title || 'Event',
   description: () => event.value?.summary || event.value?.description || 'Event at RCCG Word of Life Center.',
 })
+
+watch(
+  [events, () => key],
+  () => {
+    if (events.value == null) return
+    if (!event.value) {
+      throw createError({statusCode: 404, statusMessage: 'Event not found'})
+    }
+  },
+  {immediate: true},
+)
 </script>
 
 <template>
@@ -286,7 +298,19 @@ useSeoMeta({
             <div v-if="showRsvp" class="details-panel__rsvp">
               <h2>RSVP</h2>
               <template v-if="state !== 'done'">
-                <div class="rsvp-fields">
+                <form @submit.prevent="submitRsvp">
+                  <div class="form-honeypot" aria-hidden="true">
+                    <label for="rsvp-website">Website</label>
+                    <input
+                      id="rsvp-website"
+                      v-model="form.website"
+                      type="text"
+                      name="website"
+                      tabindex="-1"
+                      autocomplete="off"
+                    >
+                  </div>
+                  <div class="rsvp-fields">
                   <label>
                     <span class="field-label">Name</span>
                     <input v-model="form.name" class="form-field" type="text" required>
@@ -301,13 +325,14 @@ useSeoMeta({
                   </label>
                 </div>
                 <button
+                  type="submit"
                   class="btn btn-primary"
                   :disabled="state === 'sending' || !form.name || !form.email"
-                  @click="submitRsvp"
                 >
                   {{ state === 'sending' ? 'Sending…' : 'Save my spot' }}
                 </button>
                 <p v-if="state === 'error'" class="status-err">{{ errorMsg }}</p>
+                </form>
               </template>
               <p v-else class="status-ok">You're in. See you there.</p>
             </div>
@@ -345,13 +370,8 @@ useSeoMeta({
       </section>
     </template>
 
-    <template v-else>
-      <PageHeader title="Event not found" lead="This event may have passed or the link is incorrect." />
-      <section class="block block-tight">
-        <div class="wrap">
-          <NuxtLink to="/events" class="btn btn-primary">View all events</NuxtLink>
-        </div>
-      </section>
+    <template v-else-if="events == null">
+      <PageHeader title="Loading event…" />
     </template>
   </div>
 </template>

@@ -4,7 +4,6 @@ speaker: Pastor Emmanuel Ojuolape
 series: word-and-spirit
 preachedAt: "2026-08-03"
 scripture: Galatians 5:16
-videoUrl: https://youtube.com
 ---
 
 ## Overview

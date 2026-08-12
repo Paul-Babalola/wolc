@@ -1,7 +1,8 @@
 import {z} from 'zod'
 import {serverSupabaseServiceRole} from '#supabase/server'
 import {notifyStaff} from '~/server/utils/notify'
-import {readValidatedJson} from '~/server/utils/validate'
+import {guardPublicForm} from '~/server/utils/spam'
+import {parseValidatedJson} from '~/server/utils/validate'
 
 const schema = z.object({
   kind: z.enum(['contact', 'connect']).default('contact'),
@@ -10,10 +11,13 @@ const schema = z.object({
   phone: z.string().max(40).optional(),
   subject: z.string().max(200).optional(),
   message: z.string().max(4000).optional(),
+  website: z.string().max(200).optional(),
 })
 
 export default defineEventHandler(async (event) => {
-  const body = await readValidatedJson(event, schema)
+  const rawBody = await readBody(event)
+  if (guardPublicForm(event, rawBody)) return {ok: true}
+  const body = parseValidatedJson(rawBody, schema)
   const client = serverSupabaseServiceRole(event)
 
   const message = [

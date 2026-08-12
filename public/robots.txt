@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /login
+Disallow: /confirm
+Disallow: /__nuxt_content/
+
+Sitemap: https://rccgwolc.org/sitemap.xml

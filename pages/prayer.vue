@@ -3,7 +3,7 @@ const {data: settings} = await useAsyncData('prayer-settings', () =>
   queryCollection('settings').first(),
 )
 
-const form = reactive({name: '', email: '', message: '', isPrivate: false})
+const form = reactive({name: '', email: '', message: '', isPrivate: false, website: ''})
 const state = ref<'idle' | 'sending' | 'done' | 'error'>('idle')
 const errorMsg = ref('')
 
@@ -57,7 +57,18 @@ useSeoMeta({
 
           <div class="form-panel">
             <template v-if="state !== 'done'">
-              <div class="form-stack">
+              <form class="form-stack" @submit.prevent="submit">
+                <div class="form-honeypot" aria-hidden="true">
+                  <label for="prayer-website">Website</label>
+                  <input
+                    id="prayer-website"
+                    v-model="form.website"
+                    type="text"
+                    name="website"
+                    tabindex="-1"
+                    autocomplete="off"
+                  >
+                </div>
                 <label>
                   <span class="field-label">Name</span>
                   <input v-model="form.name" class="form-field" type="text" autocomplete="name">
@@ -74,11 +85,11 @@ useSeoMeta({
                   <input v-model="form.isPrivate" type="checkbox">
                   Keep this private to the prayer team
                 </label>
-                <button class="btn btn-primary" :disabled="state === 'sending' || !form.message" @click="submit">
+                <button type="submit" class="btn btn-primary" :disabled="state === 'sending' || !form.message">
                   {{ state === 'sending' ? 'Sending…' : 'Submit request' }}
                 </button>
                 <p v-if="state === 'error'" class="status-err">{{ errorMsg }}</p>
-              </div>
+              </form>
             </template>
             <p v-else class="status-ok">Thank you. Our team has received your request and will be praying.</p>
           </div>

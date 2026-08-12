@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
-  devtools: {enabled: true},
+  devtools: {enabled: process.env.NODE_ENV === 'development'},
 
   modules: ['@nuxt/content', '@nuxtjs/supabase', '@nuxt/image'],
 
@@ -12,6 +12,9 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://rccgwolc.org',
+    },
     adminEmails: process.env.ADMIN_EMAILS || '',
     resendApiKey: process.env.RESEND_API_KEY || '',
     notifyEmail: process.env.NOTIFY_EMAIL || 'admin@rccgwordoflifecenter.org',
@@ -59,6 +62,7 @@ export default defineNuxtConfig({
     '/livestream': {prerender: true},
     '/prayer': {prerender: true},
     '/membership': {prerender: true},
+    '/privacy': {prerender: true},
     '/ministries/**': {isr: 3600},
     '/sermons/**': {isr: 3600},
     '/events/**': {isr: 300},

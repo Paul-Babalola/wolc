@@ -13,6 +13,16 @@ if (!videoId.value) {
   throw createError({statusCode: 404, statusMessage: 'Video not found', fatal: true})
 }
 
+watch(
+  videos,
+  (items) => {
+    if (items && !video.value) {
+      throw createError({statusCode: 404, statusMessage: 'Video not found', fatal: true})
+    }
+  },
+  {immediate: true},
+)
+
 const embedUrl = computed(() => `https://www.youtube.com/embed/${videoId.value}`)
 
 useSeoMeta({

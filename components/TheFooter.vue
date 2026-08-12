@@ -28,6 +28,7 @@ const addressLines = computed(() => {
 })
 
 const subscribeEmail = ref('')
+const subscribeWebsite = ref('')
 const subscribeState = ref<'idle' | 'sending' | 'done' | 'error'>('idle')
 
 async function onSubscribe() {
@@ -35,7 +36,10 @@ async function onSubscribe() {
   if (!email) return
   subscribeState.value = 'sending'
   try {
-    await $fetch('/api/newsletter', {method: 'POST', body: {email}})
+    await $fetch('/api/newsletter', {
+      method: 'POST',
+      body: {email, website: subscribeWebsite.value || undefined},
+    })
     subscribeState.value = 'done'
     subscribeEmail.value = ''
   } catch {
@@ -112,7 +116,20 @@ async function onSubscribe() {
       <div class="foot-col foot-subscribe">
         <h3 class="foot-heading">Join Our Email List</h3>
         <form class="foot-subscribe-form" @submit.prevent="onSubscribe">
+          <div class="form-honeypot" aria-hidden="true">
+            <label for="footer-website">Website</label>
+            <input
+              id="footer-website"
+              v-model="subscribeWebsite"
+              type="text"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+            >
+          </div>
+          <label class="sr-only" for="footer-email">Email address</label>
           <input
+            id="footer-email"
             v-model="subscribeEmail"
             type="email"
             name="email"
@@ -132,7 +149,10 @@ async function onSubscribe() {
 
     <div class="foot-bottom">
       <div class="wrap">
-        <p class="foot-copy">© {{ new Date().getFullYear() }} RCCG Word of Life Center · A parish of RCCG North America</p>
+        <p class="foot-copy">
+          © {{ new Date().getFullYear() }} RCCG Word of Life Center · A parish of RCCG North America
+          · <NuxtLink to="/privacy" class="foot-legal-link">Privacy</NuxtLink>
+        </p>
       </div>
     </div>
   </footer>
@@ -313,6 +333,12 @@ async function onSubscribe() {
   font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.72);
   text-align: center;
+}
+
+.foot-legal-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 @media (max-width: 960px) {

@@ -74,28 +74,35 @@ onMounted(() => {
           </div>
 
           <div class="hero-headline">
-            <ClientOnly>
-              <BitsTextType
-                v-if="headlineLines.length"
-                :text="headlineLines"
-                as="h1"
-                class-name="hero-title"
-                sequential
-                :typing-speed="75"
-                :pause-duration="400"
-                :loop="false"
-                show-cursor
-                cursor-character="|"
-                @animation-complete="onHeadlineComplete"
-              />
-              <template #fallback>
-                <h1 class="hero-title">
-                  <template v-for="(line, i) in headlineLines" :key="i">
-                    {{ line }}<br v-if="i < headlineLines.length - 1">
-                  </template>
-                </h1>
+            <h1 class="sr-only">
+              <template v-for="(line, i) in headlineLines" :key="`sr-${i}`">
+                {{ line }}<template v-if="i < headlineLines.length - 1"> </template>
               </template>
-            </ClientOnly>
+            </h1>
+            <div aria-hidden="true">
+              <ClientOnly>
+                <BitsTextType
+                  v-if="headlineLines.length"
+                  :text="headlineLines"
+                  as="p"
+                  class-name="hero-title"
+                  sequential
+                  :typing-speed="75"
+                  :pause-duration="400"
+                  :loop="false"
+                  show-cursor
+                  cursor-character="|"
+                  @animation-complete="onHeadlineComplete"
+                />
+                <template #fallback>
+                  <p class="hero-title">
+                    <template v-for="(line, i) in headlineLines" :key="i">
+                      {{ line }}<br v-if="i < headlineLines.length - 1">
+                    </template>
+                  </p>
+                </template>
+              </ClientOnly>
+            </div>
           </div>
 
           <div

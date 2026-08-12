@@ -3,13 +3,15 @@ import {serverSupabaseServiceRole} from '#supabase/server'
 import {findRecurringEvent} from '~/server/utils/findRecurringEvent'
 import {notifyStaff} from '~/server/utils/notify'
 import {isRecurringEventId} from '~/server/utils/recurringEventId'
-import {readValidatedJson} from '~/server/utils/validate'
+import {guardPublicForm} from '~/server/utils/spam'
+import {parseValidatedJson} from '~/server/utils/validate'
 
 const schema = z.object({
   eventId: z.string().min(1).max(120),
   name: z.string().min(1).max(120),
   email: z.string().email(),
   guests: z.number().int().min(1).max(20).default(1),
+  website: z.string().max(200).optional(),
 })
 
 function formatWhen(iso: string) {
@@ -24,7 +26,9 @@ function formatWhen(iso: string) {
 }
 
 export default defineEventHandler(async (event) => {
-  const body = await readValidatedJson(event, schema)
+  const rawBody = await readBody(event)
+  if (guardPublicForm(event, rawBody)) return {ok: true}
+  const body = parseValidatedJson(rawBody, schema)
   const client = serverSupabaseServiceRole(event)
 
   if (isRecurringEventId(body.eventId)) {
