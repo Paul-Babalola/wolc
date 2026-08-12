@@ -26,6 +26,15 @@
   border-color: rgba(var(--blue-rgb), 0.12);
 }
 
+.card-nav.open .card-nav-content {
+  visibility: visible;
+  pointer-events: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
 .card-nav-top {
   position: absolute;
   top: 0;
@@ -128,11 +137,7 @@
   visibility: hidden;
   pointer-events: none;
   z-index: 1;
-}
-
-.card-nav.open .card-nav-content {
-  visibility: visible;
-  pointer-events: auto;
+  min-height: 0;
 }
 
 .nav-card {
@@ -190,15 +195,22 @@
 }
 
 .card-nav--reduced.open {
-  height: auto !important;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .card-nav--reduced.open .card-nav-content {
-  position: static;
+  position: absolute;
+  top: 54px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   visibility: visible;
   pointer-events: auto;
-  padding-top: 54px;
+  padding: 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .card-nav--reduced .nav-card {

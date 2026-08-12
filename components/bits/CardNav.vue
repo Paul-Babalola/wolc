@@ -55,6 +55,7 @@ const prefersReducedMotion = ref(false)
 
 const TOP_BAR_HEIGHT = 54
 const MOBILE_QUERY = '(max-width: 980px)'
+const NAV_SHELL_OFFSET = 24
 
 const displayItems = computed(() => props.items)
 
@@ -71,6 +72,33 @@ function getCards() {
   return cardsRef.value.filter((el): el is HTMLElement => Boolean(el))
 }
 
+function getMaxNavHeight() {
+  return Math.max(TOP_BAR_HEIGHT + 120, window.innerHeight - NAV_SHELL_OFFSET)
+}
+
+function measureContentHeight(contentEl: HTMLElement) {
+  const wasVisible = contentEl.style.visibility
+  const wasPointerEvents = contentEl.style.pointerEvents
+  const wasPosition = contentEl.style.position
+  const wasHeight = contentEl.style.height
+
+  contentEl.style.visibility = 'visible'
+  contentEl.style.pointerEvents = 'auto'
+  contentEl.style.position = 'static'
+  contentEl.style.height = 'auto'
+
+  void contentEl.offsetHeight
+
+  const contentHeight = contentEl.scrollHeight
+
+  contentEl.style.visibility = wasVisible
+  contentEl.style.pointerEvents = wasPointerEvents
+  contentEl.style.position = wasPosition
+  contentEl.style.height = wasHeight
+
+  return contentHeight
+}
+
 function calculateHeight() {
   const navEl = navRef.value
   if (!navEl) return 260
@@ -79,31 +107,18 @@ function calculateHeight() {
   if (isMobile) {
     const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement | null
     if (contentEl) {
-      const wasVisible = contentEl.style.visibility
-      const wasPointerEvents = contentEl.style.pointerEvents
-      const wasPosition = contentEl.style.position
-      const wasHeight = contentEl.style.height
-
-      contentEl.style.visibility = 'visible'
-      contentEl.style.pointerEvents = 'auto'
-      contentEl.style.position = 'static'
-      contentEl.style.height = 'auto'
-
-      void contentEl.offsetHeight
-
       const padding = 16
-      const contentHeight = contentEl.scrollHeight
-
-      contentEl.style.visibility = wasVisible
-      contentEl.style.pointerEvents = wasPointerEvents
-      contentEl.style.position = wasPosition
-      contentEl.style.height = wasHeight
-
-      return TOP_BAR_HEIGHT + contentHeight + padding
+      const natural = TOP_BAR_HEIGHT + measureContentHeight(contentEl) + padding
+      return Math.min(natural, getMaxNavHeight())
     }
   }
 
   return 260
+}
+
+function applyOpenHeight() {
+  if (!navRef.value) return
+  navRef.value.style.height = `${calculateHeight()}px`
 }
 
 function createTimeline() {
@@ -166,9 +181,7 @@ function openMenu() {
   if (prefersReducedMotion.value) {
     isHamburgerOpen.value = true
     expanded.value = true
-    nextTick(() => {
-      if (navRef.value) navRef.value.style.height = `${calculateHeight()}px`
-    })
+    nextTick(() => applyOpenHeight())
     return
   }
 
@@ -239,7 +252,7 @@ onMounted(() => {
     if (!tlRef.value && !prefersReducedMotion.value) return
     if (expanded.value) {
       if (prefersReducedMotion.value) {
-        if (navRef.value) navRef.value.style.height = `${calculateHeight()}px`
+        applyOpenHeight()
         return
       }
       gsap.set(navRef.value, { height: calculateHeight() })
