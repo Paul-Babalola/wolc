@@ -1,22 +1,22 @@
 <script setup lang="ts">
-defineProps<{data: any}>()
+defineProps<{ data: any }>();
 
-const {data: sermon} = await useAsyncData('featured-sermon', () =>
-  queryCollection('sermons').order('preachedAt', 'DESC').first(),
-)
+const { data: sermon } = await useAsyncData("featured-sermon", () =>
+  queryCollection("sermons").order("preachedAt", "DESC").first(),
+);
 
-const {data: videos} = await useFetch('/api/youtube/videos', {
-  key: 'home-featured-video',
+const { data: videos } = await useFetch("/api/youtube/videos", {
+  key: "home-featured-video",
   query: { limit: 1 },
   default: () => [],
-})
+});
 
-const featuredVideo = computed(() => videos.value?.[0])
+const featuredVideo = computed(() => videos.value?.[0]);
 const watchHref = computed(() =>
   featuredVideo.value
     ? `/sermons/watch/${featuredVideo.value.id}`
-    : sermon.value?.videoUrl || '/sermons',
-)
+    : sermon.value?.videoUrl || "/sermons",
+);
 </script>
 
 <template>
@@ -41,7 +41,7 @@ const watchHref = computed(() =>
           <div v-else class="watch-player__fallback" aria-hidden="true" />
 
           <div class="watch-player__overlay" aria-hidden="true" />
-          <span class="watch-player__badge">Live & on demand</span>
+          <span class="watch-player__badge">Live</span>
           <span class="watch-player__play" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
               <path d="M8 5v14l11-7z" />
@@ -59,7 +59,8 @@ const watchHref = computed(() =>
             Latest message: <strong>{{ featuredVideo.title }}</strong>
           </p>
           <p v-else-if="sermon" class="watch-latest">
-            Latest: <strong>{{ sermon.title }}</strong><span v-if="sermon.speaker"> · {{ sermon.speaker }}</span>
+            Latest: <strong>{{ sermon.title }}</strong
+            ><span v-if="sermon.speaker"> · {{ sermon.speaker }}</span>
           </p>
 
           <p v-if="data.body" class="watch-body">{{ data.body }}</p>
@@ -129,14 +130,22 @@ const watchHref = computed(() =>
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12), transparent 40%),
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 255, 255, 0.12),
+      transparent 40%
+    ),
     linear-gradient(145deg, #0f172a 0%, var(--blue) 100%);
 }
 
 .watch-player__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(15, 23, 42, 0.55));
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.08),
+    rgba(15, 23, 42, 0.55)
+  );
 }
 
 .watch-player__badge {

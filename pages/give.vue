@@ -4,6 +4,9 @@ const {data: settings} = await useAsyncData('give-settings', () =>
 )
 
 const zelleEmail = computed(() => settings.value?.email || 'admin@rccgwordoflifecenter.org')
+const paypalUrl = computed(
+  () => settings.value?.paypalDonateUrl || 'https://www.paypal.com/donate/?hosted_button_id=E49YRWWV6Q8ZW',
+)
 
 const methods = computed(() => [
   {
@@ -20,7 +23,7 @@ const methods = computed(() => [
       'Simple and secure platform for single gifts or recurring giving using your checking account, debit, or credit card. Setting up an account helps you gain access to a giving report at the end of each financial year.',
     action: {
       label: 'Give now',
-      href: 'https://www.paypal.com/donate/?hosted_button_id=E49YRWWV6Q8ZW',
+      href: paypalUrl.value,
       external: true,
     },
     icon: 'card',

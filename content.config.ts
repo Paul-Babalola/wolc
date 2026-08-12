@@ -163,6 +163,7 @@ export default defineContentConfig({
         mapUrl: z.string().optional(),
         email: z.string().optional(),
         phone: z.string().optional(),
+        paypalDonateUrl: z.string().url().optional(),
         liveStreamUrl: z.string().optional(),
         facebookLiveUrl: z.string().optional(),
         socials: z.array(z.object({platform: z.string(), url: z.string()})).optional(),
