@@ -4,14 +4,35 @@ import logoUrl from '~/assets/css/images/logo.png'
 defineProps<{settings?: any}>()
 
 const route = useRoute()
-const {scrolled, hidden} = useHeaderScroll()
+const mobileOpen = ref(false)
+const openGroups = ref<Set<string>>(new Set())
+const {scrolled, hidden, resetHidden} = useHeaderScroll({paused: mobileOpen})
 const {isLive} = useLiveStatus()
 
 const showSearch = false
 const showAccount = false
 
-const mobileOpen = ref(false)
-const openGroups = ref<Set<string>>(new Set())
+let lockedScrollY = 0
+
+function lockPageScroll() {
+  lockedScrollY = window.scrollY
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${lockedScrollY}px`
+  document.body.style.left = '0'
+  document.body.style.right = '0'
+  document.body.style.width = '100%'
+  document.documentElement.classList.add('nav-open')
+}
+
+function unlockPageScroll() {
+  document.body.style.position = ''
+  document.body.style.top = ''
+  document.body.style.left = ''
+  document.body.style.right = ''
+  document.body.style.width = ''
+  document.documentElement.classList.remove('nav-open')
+  window.scrollTo(0, lockedScrollY)
+}
 
 function toggleGroup(label: string) {
   const next = new Set(openGroups.value)
@@ -21,21 +42,26 @@ function toggleGroup(label: string) {
 function closeMobile() {
   mobileOpen.value = false
 }
+function openMobile() {
+  resetHidden()
+  mobileOpen.value = true
+}
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape') closeMobile()
 }
 
 watch(mobileOpen, (open: boolean) => {
-  if (import.meta.client) {
-    document.documentElement.classList.toggle('nav-open', open)
-  }
+  if (!import.meta.client) return
+  if (open) lockPageScroll()
+  else unlockPageScroll()
 })
 watch(() => route.path, closeMobile)
 
 onMounted(() => document.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeydown)
-  document.documentElement.classList.remove('nav-open')
+  if (mobileOpen.value) unlockPageScroll()
+  else document.documentElement.classList.remove('nav-open')
 })
 </script>
 
@@ -95,7 +121,7 @@ onBeforeUnmount(() => {
           aria-controls="mobile-drawer"
           aria-label="Menu"
           type="button"
-          @click="mobileOpen = !mobileOpen"
+          @click="mobileOpen ? closeMobile() : openMobile()"
         >
           <span /><span /><span />
         </button>
@@ -103,16 +129,36 @@ onBeforeUnmount(() => {
     </div>
     </div>
 
-    <Transition name="drawer">
-      <div
-        v-show="mobileOpen"
-        id="mobile-drawer"
-        class="drawer"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menu"
-      >
-        <nav class="drawer-nav" aria-label="Mobile">
+    <Teleport to="body">
+      <Transition name="fade">
+        <button
+          v-if="mobileOpen"
+          class="scrim"
+          type="button"
+          aria-label="Close menu"
+          @click="closeMobile"
+        />
+      </Transition>
+
+      <Transition name="drawer">
+        <div
+          v-if="mobileOpen"
+          id="mobile-drawer"
+          class="drawer"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+        >
+          <div class="drawer-top">
+            <p class="drawer-title">Menu</p>
+            <button class="drawer-close" type="button" aria-label="Close menu" @click="closeMobile">
+              <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+                <path d="M4 4l10 10M14 4 4 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+
+          <nav class="drawer-nav" aria-label="Mobile">
           <template v-for="item in settings?.primaryNav" :key="item.label">
             <div v-if="item.children?.length" class="acc">
               <button
@@ -163,12 +209,9 @@ onBeforeUnmount(() => {
           </a>
           <NuxtLink class="btn btn-primary wide" to="/visit" @click="closeMobile">Plan a visit →</NuxtLink>
         </div>
-      </div>
-    </Transition>
-
-    <Transition name="fade">
-      <div v-show="mobileOpen" class="scrim" @click="closeMobile" />
-    </Transition>
+        </div>
+      </Transition>
+    </Teleport>
   </header>
 </template>
 
@@ -349,15 +392,45 @@ onBeforeUnmount(() => {
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(88vw, 400px);
-  z-index: 70;
+  width: min(100vw, 400px);
+  z-index: 120;
+  pointer-events: auto;
   background: var(--paper);
   border-left: 1px solid var(--line);
-  padding: 92px 24px 28px;
+  padding: 20px 20px 28px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   box-shadow: -8px 0 40px rgba(var(--blue-rgb), 0.12);
+}
+.drawer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.drawer-title {
+  font-family: var(--display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.drawer-close {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--ink);
+  cursor: pointer;
 }
 .drawer-nav {
   display: flex;
@@ -435,9 +508,14 @@ onBeforeUnmount(() => {
 .scrim {
   position: fixed;
   inset: 0;
-  z-index: 65;
+  z-index: 110;
+  pointer-events: auto;
+  border: 0;
+  padding: 0;
+  margin: 0;
   background: rgba(26, 26, 26, 0.35);
   backdrop-filter: blur(4px);
+  cursor: pointer;
 }
 
 .drawer-enter-active,
