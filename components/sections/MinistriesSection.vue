@@ -9,40 +9,68 @@ const glowColors = ['#2563eb', '#38bdf8', '#818cf8']
 </script>
 
 <template>
-  <section class="block" style="padding-top: 0">
+  <section class="ministries landing-section landing-section--white">
     <div class="wrap">
-      <div class="m-head reveal">
-        <div>
-          <span v-if="data.eyebrow" class="eyebrow-dark">{{ data.eyebrow }}</span>
-          <h2 class="section-title">{{ data.heading }}</h2>
-        </div>
-        <p v-if="data.intro">{{ data.intro }}</p>
-      </div>
-      <div class="cards">
+      <SectionsSectionHeader
+        class="reveal"
+        :eyebrow="data.eyebrow"
+        :title="data.heading"
+        :intro="data.intro"
+        action-label="View all ministries"
+        action-href="/ministries"
+      />
+
+      <div class="ministries-grid">
         <ClientOnly>
           <BitsBorderGlow
             v-for="m in ministries"
             :key="m.slug"
-            class-name="card-glow reveal"
+            class-name="ministry-glow reveal"
             background-color="#ffffff"
             :border-radius="22"
             :colors="glowColors"
             glow-color="217 91 60"
           >
-            <NuxtLink :to="`/ministries/${m.slug}`" class="card">
-              <h3>{{ m.title }}</h3>
-              <p>{{ m.blurb }}</p>
+            <NuxtLink :to="`/ministries/${m.slug}`" class="ministry-card">
+              <div
+                v-if="m.imageUrl"
+                class="ministry-card__media"
+              >
+                <NuxtImg
+                  :src="m.imageUrl"
+                  :alt="m.title"
+                  width="640"
+                  height="420"
+                  loading="lazy"
+                  format="webp"
+                />
+              </div>
+              <div v-else class="ministry-card__media ministry-card__media--fallback" />
+              <div class="ministry-card__body">
+                <h3>{{ m.title }}</h3>
+                <p>{{ m.blurb }}</p>
+                <span class="landing-link-arrow">Explore ministry</span>
+              </div>
             </NuxtLink>
           </BitsBorderGlow>
+
           <template #fallback>
             <NuxtLink
               v-for="m in ministries"
               :key="`${m.slug}-fallback`"
               :to="`/ministries/${m.slug}`"
-              class="card reveal"
+              class="ministry-card ministry-card--plain reveal"
             >
-              <h3>{{ m.title }}</h3>
-              <p>{{ m.blurb }}</p>
+              <div
+                v-if="m.imageUrl"
+                class="ministry-card__media"
+              >
+                <img :src="m.imageUrl" :alt="m.title" loading="lazy">
+              </div>
+              <div class="ministry-card__body">
+                <h3>{{ m.title }}</h3>
+                <p>{{ m.blurb }}</p>
+              </div>
             </NuxtLink>
           </template>
         </ClientOnly>
@@ -52,38 +80,99 @@ const glowColors = ['#2563eb', '#38bdf8', '#818cf8']
 </template>
 
 <style scoped>
-.eyebrow-dark {
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--blue);
-  display: block;
-  margin-bottom: 12px;
+.ministries :deep(.section-header) {
+  margin-bottom: clamp(24px, 3.5vw, 36px);
 }
-.m-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 52px; flex-wrap: wrap; }
-.m-head p { color: var(--muted); max-width: 420px; }
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-.card-glow {
-  transition: transform 0.25s ease;
+
+.ministries-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
 }
-.card-glow:hover {
-  transform: translateY(-6px);
+
+.ministry-glow {
+  transition: transform 0.24s ease;
 }
-.card-glow :deep(.border-glow-inner) {
+
+.ministry-glow:hover {
+  transform: translateY(-5px);
+}
+
+.ministry-glow :deep(.border-glow-inner) {
   height: 100%;
 }
-.card {
-  background: var(--white);
-  border: none;
+
+.ministry-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   border-radius: inherit;
-  padding: 30px;
-  display: block;
-  height: 100%;
-  box-shadow: none;
+  background: var(--white);
 }
-.card h3 { font-family: var(--display); font-weight: 600; font-size: 1.3rem; margin-bottom: 8px; }
-.card p { color: var(--muted); font-size: 0.96rem; }
-@media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+
+.ministry-card--plain {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.ministry-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: linear-gradient(145deg, #0f172a, var(--blue));
+}
+
+.ministry-card__media img,
+.ministry-card__media :deep(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.ministry-card:hover .ministry-card__media img,
+.ministry-card:hover .ministry-card__media :deep(img) {
+  transform: scale(1.04);
+}
+
+.ministry-card__media--fallback {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.18), transparent 45%),
+    linear-gradient(145deg, #1e3a8a, var(--blue));
+}
+
+.ministry-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 22px 24px 24px;
+}
+
+.ministry-card__body h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.18rem;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.ministry-card__body p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 980px) {
+  .ministries-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .ministries-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

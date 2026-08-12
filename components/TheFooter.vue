@@ -273,20 +273,26 @@ async function onSubscribe() {
   justify-content: center;
   width: 100%;
   padding: 10px 16px;
-  border: none;
+  border: 1px solid var(--blue);
   border-radius: 8px;
-  background: var(--blue);
-  color: var(--white);
+  background: transparent;
+  color: var(--blue);
   font-family: var(--body);
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.foot-subscribe-btn:hover {
-  background: var(--blue-hover);
+.foot-subscribe-btn:hover:not(:disabled) {
+  background: var(--blue-soft);
+  border-color: rgba(var(--blue-rgb), 0.45);
   transform: translateY(-1px);
+}
+
+.foot-subscribe-btn:disabled {
+  opacity: 0.72;
+  cursor: default;
 }
 
 .foot-subscribe-msg {

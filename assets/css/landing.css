@@ -1,0 +1,49 @@
+/* Landing page rhythm and surfaces (post-hero) */
+
+.landing-section {
+  position: relative;
+  padding: clamp(56px, 7vw, 80px) 0;
+}
+
+.landing-section--flush-top {
+  padding-top: 0;
+}
+
+.landing-section--paper {
+  background: var(--paper);
+}
+
+.landing-section--white {
+  background: var(--white);
+}
+
+.landing-section--muted {
+  background: linear-gradient(180deg, var(--white) 0%, var(--paper) 100%);
+}
+
+.landing-surface {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.06);
+}
+
+.landing-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.landing-link-arrow::after {
+  content: '→';
+  transition: transform 0.2s ease;
+}
+
+a:hover .landing-link-arrow::after,
+.landing-link-arrow:hover::after {
+  transform: translateX(3px);
+}

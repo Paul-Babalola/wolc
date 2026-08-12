@@ -249,13 +249,19 @@ onBeforeUnmount(() => {
   background: var(--blue-soft);
 }
 .nav-link.highlight {
-  background: var(--blue-soft);
+  background: transparent;
   color: var(--blue);
   font-weight: 600;
-  border: 1px solid rgba(var(--blue-rgb), 0.12);
+  border: 1px solid rgba(var(--blue-rgb), 0.32);
 }
-.nav-link.highlight:hover {
-  background: rgba(var(--blue-rgb), 0.14);
+.nav-link.highlight:hover,
+.nav-link.highlight.router-link-active:hover {
+  background: var(--blue-soft);
+  border-color: rgba(var(--blue-rgb), 0.45);
+}
+.nav-link.highlight.router-link-active {
+  background: transparent;
+  border-color: var(--blue);
 }
 
 .nav-actions {
@@ -368,6 +374,10 @@ onBeforeUnmount(() => {
 }
 .drawer-link.highlight {
   color: var(--blue);
+  border-bottom: none;
+  box-shadow: inset 0 0 0 1px rgba(var(--blue-rgb), 0.32);
+  border-radius: 999px;
+  text-align: center;
 }
 
 .acc { border-bottom: 1px solid var(--line); }

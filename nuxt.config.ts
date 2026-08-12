@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/content', '@nuxtjs/supabase', '@nuxt/image'],
 
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/landing.css'],
 
   image: {
     domains: ['images.unsplash.com', 'i.ytimg.com', 'i1.ytimg.com', 'i2.ytimg.com', 'rccgwolc.org'],

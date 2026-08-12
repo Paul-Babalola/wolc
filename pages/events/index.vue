@@ -156,8 +156,16 @@ function formatWhen(start: string, end: string | null) {
   return `${datePart} @ ${startTime} - ${endTime}`
 }
 
+const isViewingToday = computed(() => {
+  const now = new Date()
+  if (view.value === 'day') return isSameDay(monthCursor.value, now)
+  if (view.value === 'month') return isSameMonth(monthCursor.value, now)
+  return false
+})
+
 function goToday() {
-  monthCursor.value = startOfMonth(new Date())
+  const now = new Date()
+  monthCursor.value = view.value === 'day' ? now : startOfMonth(now)
 }
 
 function goMonth(offset: number) {
@@ -260,7 +268,14 @@ useSeoMeta({
 
         <div v-if="view !== 'list'" class="month-nav reveal">
           <button type="button" class="nav-link-btn" @click="goMonth(-1)">Previous Events</button>
-          <button type="button" class="nav-link-btn nav-link-btn--strong" @click="goToday">Today</button>
+          <button
+            type="button"
+            class="nav-link-btn"
+            :class="{'nav-link-btn--strong': isViewingToday}"
+            @click="goToday"
+          >
+            Today
+          </button>
           <button type="button" class="nav-link-btn" @click="goMonth(1)">Next Events</button>
           <p class="month-nav__label">{{ monthLabel }}</p>
         </div>
