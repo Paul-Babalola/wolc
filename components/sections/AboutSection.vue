@@ -15,6 +15,11 @@ const highlights = [
 ]
 
 const isStandaloneWelcome = computed(() => !props.data?.scriptureQuote)
+
+const highlightText = computed(() => {
+  const text = props.data?.highlight?.trim()
+  return text ? `\u00a0${text}` : ''
+})
 </script>
 
 <template>
@@ -30,8 +35,7 @@ const isStandaloneWelcome = computed(() => !props.data?.scriptureQuote)
             <h2 class="about-header__title">
               <template v-for="(line, i) in lines" :key="i">
                 {{ line }}<br v-if="i < lines.length - 1">
-              </template>
-              <span v-if="data.highlight" class="about-header__accent">{{ data.highlight }}</span>
+              </template><span v-if="highlightText" class="about-header__accent">{{ highlightText }}</span>
             </h2>
           </header>
 
