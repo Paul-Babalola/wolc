@@ -1,217 +1,124 @@
 <script setup lang="ts">
 import logoUrl from '~/assets/css/images/logo.png'
+import type { CardNavItem } from '~/components/bits/CardNav.vue'
 
-defineProps<{settings?: any}>()
+const props = defineProps<{ settings?: any }>()
 
 const route = useRoute()
 const mobileOpen = ref(false)
-const openGroups = ref<Set<string>>(new Set())
-const {scrolled, resetHidden} = useHeaderScroll({paused: mobileOpen})
-const {isLive} = useLiveStatus()
+const { scrolled, resetHidden } = useHeaderScroll({ paused: mobileOpen })
+const { isLive } = useLiveStatus()
 
 const showSearch = false
 const showAccount = false
 
-let lockedScrollY = 0
+const CARD_STYLES = [
+  { bg: '#1e3a8a', text: '#ffffff' },
+  { bg: '#2563eb', text: '#ffffff' },
+  { bg: '#1d4ed8', text: '#ffffff' },
+  { bg: '#312e81', text: '#ffffff' },
+  { bg: '#1e40af', text: '#ffffff' },
+]
 
-function lockPageScroll() {
-  lockedScrollY = window.scrollY
-  document.body.style.position = 'fixed'
-  document.body.style.top = `-${lockedScrollY}px`
-  document.body.style.left = '0'
-  document.body.style.right = '0'
-  document.body.style.width = '100%'
-  document.documentElement.classList.add('nav-open')
-}
+const cardNavItems = computed<CardNavItem[]>(() => {
+  const nav = props.settings?.primaryNav ?? []
+  return nav.map((item: any, index: number) => {
+    const style = CARD_STYLES[index % CARD_STYLES.length]
+    const links = item.children?.length
+      ? item.children.map((child: any) => ({
+          label: child.label,
+          href: child.href,
+          ariaLabel: child.description || child.label,
+        }))
+      : [{
+          label: item.label,
+          href: item.href,
+          ariaLabel: item.label,
+        }]
 
-function unlockPageScroll() {
-  document.body.style.position = ''
-  document.body.style.top = ''
-  document.body.style.left = ''
-  document.body.style.right = ''
-  document.body.style.width = ''
-  document.documentElement.classList.remove('nav-open')
-  window.scrollTo(0, lockedScrollY)
-}
-
-function toggleGroup(label: string) {
-  const next = new Set(openGroups.value)
-  next.has(label) ? next.delete(label) : next.add(label)
-  openGroups.value = next
-}
-function closeMobile() {
-  mobileOpen.value = false
-}
-function openMobile() {
-  resetHidden()
-  mobileOpen.value = true
-}
-function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape') closeMobile()
-}
+    return {
+      label: item.label,
+      bgColor: style.bg,
+      textColor: style.text,
+      links,
+    }
+  })
+})
 
 watch(mobileOpen, (open: boolean) => {
-  if (!import.meta.client) return
-  if (open) lockPageScroll()
-  else unlockPageScroll()
+  if (open) resetHidden()
 })
-watch(() => route.path, closeMobile)
-
-onMounted(() => document.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', onKeydown)
-  if (mobileOpen.value) unlockPageScroll()
-  else document.documentElement.classList.remove('nav-open')
+watch(() => route.path, () => {
+  mobileOpen.value = false
 })
 </script>
 
 <template>
   <header class="nav-shell">
-    <div class="nav-bar" :class="{ scrolled }">
+    <div class="nav-bar nav-bar--desktop" :class="{ scrolled }">
       <div class="nav-inner">
-      <NuxtLink to="/" class="brand" aria-label="Word of Life Center — home" @click="closeMobile">
-        <img :src="logoUrl" alt="RCCG Word of Life Center" class="brand-logo" width="180" height="32">
-      </NuxtLink>
-
-      <nav class="nav-links" aria-label="Primary">
-        <template v-for="item in settings?.primaryNav" :key="item.label">
-          <NavDropdown v-if="item.children?.length" :item="item" />
-          <NuxtLink
-            v-else
-            :to="item.href"
-            class="nav-link"
-            :class="{highlight: item.highlight}"
-          >
-            {{ item.label }}
-          </NuxtLink>
-        </template>
-      </nav>
-
-      <div class="nav-actions">
-        <a
-          v-if="isLive && settings?.liveStreamUrl"
-          class="live-pill"
-          :href="settings.liveStreamUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span class="live-dot" /> Live now
-        </a>
-
-        <button v-if="showSearch" class="icon-btn" type="button" aria-label="Search">
-          <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
-            <circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7" />
-            <path d="m14 14 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-          </svg>
-        </button>
-
-        <NuxtLink v-if="showAccount" to="/account" class="icon-btn" aria-label="My account">
-          <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
-            <circle cx="10" cy="7" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6" />
-            <path d="M4 17c0-3 2.7-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.6" />
-          </svg>
+        <NuxtLink to="/" class="brand" aria-label="Word of Life Center — home">
+          <img :src="logoUrl" alt="RCCG Word of Life Center" class="brand-logo" width="180" height="32">
         </NuxtLink>
 
-        <NuxtLink class="btn btn-primary cta" to="/visit">Plan a visit</NuxtLink>
-
-        <button
-          class="burger"
-          :class="{open: mobileOpen}"
-          :aria-expanded="mobileOpen"
-          aria-controls="mobile-drawer"
-          aria-label="Menu"
-          type="button"
-          @click="mobileOpen ? closeMobile() : openMobile()"
-        >
-          <span /><span /><span />
-        </button>
-      </div>
-    </div>
-    </div>
-
-    <Teleport to="body">
-      <Transition name="fade">
-        <button
-          v-if="mobileOpen"
-          class="scrim"
-          type="button"
-          aria-label="Close menu"
-          @click="closeMobile"
-        />
-      </Transition>
-
-      <Transition name="drawer">
-        <div
-          v-if="mobileOpen"
-          id="mobile-drawer"
-          class="drawer"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu"
-        >
-          <div class="drawer-top">
-            <p class="drawer-title">Menu</p>
-            <button class="drawer-close" type="button" aria-label="Close menu" @click="closeMobile">
-              <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-                <path d="M4 4l10 10M14 4 4 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-              </svg>
-            </button>
-          </div>
-
-          <nav class="drawer-nav" aria-label="Mobile">
+        <nav class="nav-links" aria-label="Primary">
           <template v-for="item in settings?.primaryNav" :key="item.label">
-            <div v-if="item.children?.length" class="acc">
-              <button
-                class="acc-head"
-                type="button"
-                :aria-expanded="openGroups.has(item.label)"
-                @click="toggleGroup(item.label)"
-              >
-                {{ item.label }}
-                <svg class="chev" :class="{flip: openGroups.has(item.label)}" width="14" height="14" viewBox="0 0 12 12" aria-hidden="true">
-                  <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
-              <div v-show="openGroups.has(item.label)" class="acc-body">
-                <NuxtLink
-                  v-for="child in item.children"
-                  :key="child.href"
-                  :to="child.href"
-                  class="acc-link"
-                  @click="closeMobile"
-                >
-                  <span class="acc-label">{{ child.label }}</span>
-                  <span v-if="child.description" class="acc-desc">{{ child.description }}</span>
-                </NuxtLink>
-              </div>
-            </div>
+            <NavDropdown v-if="item.children?.length" :item="item" />
             <NuxtLink
               v-else
               :to="item.href"
-              class="drawer-link"
-              :class="{highlight: item.highlight}"
-              @click="closeMobile"
+              class="nav-link"
+              :class="{ highlight: item.highlight }"
             >
               {{ item.label }}
             </NuxtLink>
           </template>
         </nav>
 
-        <div class="drawer-foot">
+        <div class="nav-actions">
           <a
             v-if="isLive && settings?.liveStreamUrl"
-            class="live-pill wide"
+            class="live-pill"
             :href="settings.liveStreamUrl"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span class="live-dot" /> Watch live now
+            <span class="live-dot" /> Live now
           </a>
-          <NuxtLink class="btn btn-primary wide" to="/visit" @click="closeMobile">Plan a visit →</NuxtLink>
+
+          <button v-if="showSearch" class="icon-btn" type="button" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7" />
+              <path d="m14 14 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            </svg>
+          </button>
+
+          <NuxtLink v-if="showAccount" to="/account" class="icon-btn" aria-label="My account">
+            <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="7" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <path d="M4 17c0-3 2.7-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+          </NuxtLink>
+
+          <NuxtLink class="btn btn-primary cta" to="/visit">Plan a visit</NuxtLink>
         </div>
-        </div>
-      </Transition>
-    </Teleport>
+      </div>
+    </div>
+
+    <BitsCardNav
+      v-if="settings?.primaryNav?.length"
+      v-model:expanded="mobileOpen"
+      class="nav-bar--mobile"
+      :logo="logoUrl"
+      logo-alt="RCCG Word of Life Center"
+      :items="cardNavItems"
+      base-color="#ffffff"
+      menu-color="var(--ink)"
+      button-bg-color="#2563EB"
+      button-text-color="#ffffff"
+      cta-label="Plan a visit"
+      cta-href="/visit"
+    />
   </header>
 </template>
 
@@ -226,7 +133,7 @@ onBeforeUnmount(() => {
   pointer-events: none;
 }
 
-.nav-bar {
+.nav-bar--desktop {
   pointer-events: auto;
   max-width: min(var(--page-width), calc(100% - var(--layout-bar-inset)));
   margin: 0 auto;
@@ -236,15 +143,21 @@ onBeforeUnmount(() => {
   border: 1px solid var(--line);
   box-shadow: 0 8px 32px rgba(var(--blue-rgb), 0.08);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: visible;
 }
-.nav-bar.scrolled {
+
+.nav-bar--desktop.scrolled {
   border-color: rgba(var(--blue-rgb), 0.1);
   box-shadow: 0 12px 40px rgba(var(--blue-rgb), 0.12);
 }
 
+.nav-bar--mobile {
+  display: none;
+}
+
 .nav-inner {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   height: 60px;
   gap: 16px;
@@ -257,7 +170,9 @@ onBeforeUnmount(() => {
   justify-self: start;
   transition: opacity 0.2s;
 }
+
 .brand:hover { opacity: 0.88; }
+
 .brand-logo {
   height: 32px;
   width: auto;
@@ -282,25 +197,49 @@ onBeforeUnmount(() => {
   border-radius: 999px;
   transition: color 0.2s, background 0.2s, box-shadow 0.2s;
 }
+
 .nav-link:hover,
 .nav-link.router-link-active {
   color: var(--blue);
   background: var(--blue-soft);
 }
+
 .nav-link.highlight {
   background: transparent;
   color: var(--blue);
   font-weight: 600;
   border: 1px solid rgba(var(--blue-rgb), 0.32);
 }
+
 .nav-link.highlight:hover,
 .nav-link.highlight.router-link-active:hover {
   background: var(--blue-soft);
   border-color: rgba(var(--blue-rgb), 0.45);
 }
+
 .nav-link.highlight.router-link-active {
   background: transparent;
   border-color: var(--blue);
+}
+
+@media (max-width: 1200px) {
+  .nav-inner {
+    gap: 8px;
+  }
+
+  .brand-logo {
+    height: 28px;
+    max-width: min(150px, 32vw);
+  }
+
+  .live-pill {
+    display: none;
+  }
+
+  .cta {
+    padding: 8px 12px;
+    font-size: 0.76rem;
+  }
 }
 
 .nav-actions {
@@ -322,6 +261,7 @@ onBeforeUnmount(() => {
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s, box-shadow 0.2s, background 0.2s;
 }
+
 .icon-btn:hover {
   color: var(--blue);
   border-color: rgba(var(--blue-rgb), 0.2);
@@ -346,6 +286,7 @@ onBeforeUnmount(() => {
   font-weight: 600;
   white-space: nowrap;
 }
+
 .live-dot {
   width: 8px;
   height: 8px;
@@ -353,206 +294,20 @@ onBeforeUnmount(() => {
   background: #e74c3c;
   animation: livepulse 1.6s infinite;
 }
+
 @keyframes livepulse {
   0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.6); }
   70% { box-shadow: 0 0 0 8px rgba(231, 76, 60, 0); }
   100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
 }
 
-.burger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--white);
-  cursor: pointer;
-  padding: 0 10px;
-}
-.burger span {
-  display: block;
-  height: 2px;
-  background: var(--ink);
-  border-radius: 2px;
-  transition: transform 0.28s ease, opacity 0.2s ease;
-}
-.burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.burger.open span:nth-child(2) { opacity: 0; }
-.burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-.drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(100vw, 400px);
-  z-index: 120;
-  pointer-events: auto;
-  background: var(--paper);
-  border-left: 1px solid var(--line);
-  padding: 20px 20px 28px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  box-shadow: -8px 0 40px rgba(var(--blue-rgb), 0.12);
-}
-.drawer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
-}
-.drawer-title {
-  font-family: var(--display);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.drawer-close {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--white);
-  color: var(--ink);
-  cursor: pointer;
-}
-.drawer-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.drawer-link {
-  padding: 15px 6px;
-  font-size: 1.1rem;
-  font-family: var(--display);
-  font-weight: 600;
-  border-bottom: 1px solid var(--line);
-  color: var(--ink);
-}
-.drawer-link.highlight {
-  color: var(--blue);
-  border-bottom: none;
-  box-shadow: inset 0 0 0 1px rgba(var(--blue-rgb), 0.32);
-  border-radius: 999px;
-  text-align: center;
-}
-
-.acc { border-bottom: 1px solid var(--line); }
-.acc-head {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: none;
-  border: none;
-  color: var(--ink);
-  cursor: pointer;
-  padding: 15px 6px;
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-.chev { transition: transform 0.2s ease; opacity: 0.65; }
-.chev.flip { transform: rotate(180deg); }
-.acc-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 8px 14px;
-  gap: 4px;
-  margin-bottom: 8px;
-  border-radius: 16px;
-  background: var(--white);
-  border: 1px solid var(--line);
-}
-.acc-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 2px;
-  width: 100%;
-  padding: 11px 12px;
-  border-radius: 10px;
-  transition: background 0.2s;
-}
-.acc-link:hover { background: var(--blue-soft); }
-.acc-label { font-weight: 500; color: var(--ink); }
-.acc-desc { font-size: 0.85rem; color: var(--muted); }
-
-.drawer-foot {
-  margin-top: auto;
-  padding-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.wide { width: 100%; justify-content: center; }
-
-.scrim {
-  position: fixed;
-  inset: 0;
-  z-index: 110;
-  pointer-events: auto;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  background: rgba(26, 26, 26, 0.35);
-  backdrop-filter: blur(4px);
-  cursor: pointer;
-}
-
-.drawer-enter-active,
-.drawer-leave-active { transition: transform 0.32s ease; }
-.drawer-enter-from,
-.drawer-leave-to { transform: translateX(100%); }
-.fade-enter-active,
-.fade-leave-active { transition: opacity 0.28s ease; }
-.fade-enter-from,
-.fade-leave-to { opacity: 0; }
-
 @media (max-width: 980px) {
   .nav-shell { padding: 10px var(--layout-shell-x) 0; }
-  .nav-bar {
-    border-radius: 18px;
-  }
-  .nav-links { display: none; }
-  .icon-btn { display: none; }
-  .cta { display: none; }
-  .live-pill:not(.wide) { display: none; }
-  .burger { display: flex; }
-  .nav-inner {
-    grid-template-columns: 1fr auto;
-    height: 54px;
-    gap: 12px;
-  }
-  .nav-actions { justify-self: end; }
-  .brand-logo {
-    height: 28px;
-    max-width: min(140px, 34vw);
-  }
+  .nav-bar--desktop { display: none; }
+  .nav-bar--mobile { display: block; }
 }
-@media (max-width: 400px) {
-  .brand-logo {
-    height: 26px;
-    max-width: min(120px, 40vw);
-  }
-}
+
 @media (prefers-reduced-motion: reduce) {
-  .burger span, .drawer-enter-active, .drawer-leave-active,
-  .fade-enter-active, .fade-leave-active, .chev { transition: none; }
   .live-dot { animation: none; }
 }
 </style>

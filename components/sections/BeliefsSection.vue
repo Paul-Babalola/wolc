@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<{data: any}>()
+const props = defineProps<{ data: any }>();
 
 const fallbackImage =
-  'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=80'
+  "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=80";
 
 const galleryItems = computed(() =>
   (props.data?.items || []).map((item: any) => ({
@@ -11,11 +11,11 @@ const galleryItems = computed(() =>
     description: item.body,
     alt: item.title,
   })),
-)
+);
 
 const defaultIndex = computed(() =>
   Math.min(2, Math.max(galleryItems.value.length - 1, 0)),
-)
+);
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const defaultIndex = computed(() =>
     <div class="wrap">
       <div class="head reveal">
         <span v-if="data.eyebrow" class="eyebrow-dark">{{ data.eyebrow }}</span>
-        <h2 class="section-title">{{ data.heading || 'What we believe' }}</h2>
+        <h2 class="section-title">{{ data.heading || "What we believe" }}</h2>
         <p v-if="data.intro" class="intro">{{ data.intro }}</p>
       </div>
 
@@ -44,7 +44,11 @@ const defaultIndex = computed(() =>
         </div>
         <template #fallback>
           <div class="beliefs-fallback">
-            <article v-for="item in galleryItems" :key="item.label" class="beliefs-fallback__item">
+            <article
+              v-for="item in galleryItems"
+              :key="item.label"
+              class="beliefs-fallback__item"
+            >
               <h3>{{ item.label }}</h3>
               <p>{{ item.description }}</p>
             </article>
