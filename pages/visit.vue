@@ -61,6 +61,7 @@ useSiteSeo({
   <div>
     <PageHeader
       title="Plan a Visit"
+      :image="images.visit"
       :crumbs="[{label: 'Home', href: '/'}, {label: 'Plan a Visit'}]"
       lead="Join us this Sunday at 10:00 AM. We would love to meet you and help your first visit feel simple and welcoming."
     />

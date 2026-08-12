@@ -6,7 +6,7 @@ defineProps<{settings?: any}>()
 const route = useRoute()
 const mobileOpen = ref(false)
 const openGroups = ref<Set<string>>(new Set())
-const {scrolled, hidden, resetHidden} = useHeaderScroll({paused: mobileOpen})
+const {scrolled, resetHidden} = useHeaderScroll({paused: mobileOpen})
 const {isLive} = useLiveStatus()
 
 const showSearch = false
@@ -66,7 +66,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <header class="nav-shell" :class="{ hidden: hidden && !mobileOpen }">
+  <header class="nav-shell">
     <div class="nav-bar" :class="{ scrolled }">
       <div class="nav-inner">
       <NuxtLink to="/" class="brand" aria-label="Word of Life Center — home" @click="closeMobile">
@@ -224,10 +224,6 @@ onBeforeUnmount(() => {
   z-index: 60;
   padding: 12px var(--layout-shell-x) 0;
   pointer-events: none;
-  transition: transform 0.35s ease;
-}
-.nav-shell.hidden {
-  transform: translateY(calc(-100% - 16px));
 }
 
 .nav-bar {
@@ -555,7 +551,7 @@ onBeforeUnmount(() => {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nav-shell, .burger span, .drawer-enter-active, .drawer-leave-active,
+  .burger span, .drawer-enter-active, .drawer-leave-active,
   .fade-enter-active, .fade-leave-active, .chev { transition: none; }
   .live-dot { animation: none; }
 }

@@ -21,10 +21,12 @@ function formatDate(iso: string) {
 
 const glowColors = ['#2563eb', '#38bdf8', '#818cf8']
 
+const { images } = useSiteImages()
+
 useSiteSeo({
   title: 'Sermons',
   description: 'Watch recent messages from RCCG Word of Life Center on YouTube.',
-  image: () => videos.value?.[0]?.thumbnailUrl,
+  image: () => videos.value?.[0]?.thumbnailUrl || images.value.sermons,
 })
 </script>
 
@@ -33,6 +35,7 @@ useSiteSeo({
     <PageHeader
       title="Sermons"
       eyebrow="Messages"
+      :image="images.sermons"
       lead="Teaching from Sunday worship and Bible study — watch online anytime."
     />
 

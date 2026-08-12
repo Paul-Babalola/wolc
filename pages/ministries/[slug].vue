@@ -38,6 +38,7 @@ useSiteSeo({
   <div>
     <PageHeader
       :title="ministry?.title || 'Ministry'"
+      :image="ministry?.imageUrl"
       :crumbs="crumbs"
     />
 

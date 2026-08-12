@@ -39,7 +39,8 @@ defineProps<{data: any}>()
   font-size: clamp(1.35rem, 2.5vw, 1.65rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  margin: 10px 0 16px;
+  margin: 0 0 16px;
+  color: var(--blue);
 }
 .statement-body {
   color: var(--muted);

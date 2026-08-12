@@ -78,7 +78,8 @@ const photoSrc = computed(() => props.data?.photoUrl || pastorsPhoto)
   font-size: clamp(1.6rem, 3.5vw, 2.2rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  margin-top: 8px;
+  margin-top: 0;
+  color: var(--blue);
 }
 .subheading {
   font-family: var(--display);

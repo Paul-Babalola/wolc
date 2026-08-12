@@ -63,6 +63,9 @@ const defaultIndex = computed(() =>
   margin-bottom: 40px;
   max-width: 640px;
 }
+.section-title {
+  color: var(--blue);
+}
 .intro {
   color: var(--muted);
   margin-top: 16px;

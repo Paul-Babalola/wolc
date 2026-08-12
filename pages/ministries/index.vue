@@ -1,31 +1,30 @@
 <script setup lang="ts">
-const {data: ministries} = await useAsyncData('ministries-page', () =>
-  queryCollection('ministries').order('order', 'ASC').all(),
-)
+const { data: ministries } = await useAsyncData("ministries-page", () =>
+  queryCollection("ministries").order("order", "ASC").all(),
+);
 
-const glowColors = ['#2563eb', '#38bdf8', '#818cf8']
+const glowColors = ["#2563eb", "#38bdf8", "#818cf8"];
+
+const { images } = useSiteImages();
 
 useSiteSeo({
-  title: 'Ministries',
+  title: "Ministries",
   description:
-    'Covenant Seed, Youth, Women of Grace, Men of Valor, Outreach, and Connect Groups at RCCG Word of Life Center.',
-  image: '/images/site/about-church.jpeg',
-})
+    "Covenant Seed, Youth, Women of Grace, Men of Valor, Outreach, and Connect Groups at RCCG Word of Life Center.",
+  image: () => images.value.ministries,
+});
 </script>
 
 <template>
   <div>
     <PageHeader
       title="Ministries"
-      :crumbs="[{label: 'Home', href: '/'}, {label: 'Ministries'}]"
+      :image="images.ministries"
+      :crumbs="[{ label: 'Home', href: '/' }, { label: 'Ministries' }]"
     />
 
     <section class="block block-tight">
       <div class="wrap">
-        <p class="ministries-lead reveal">
-          Covenant Seed, Youth, Women of Grace, Men of Valor, Outreach, and Connect Groups.
-        </p>
-
         <div class="card-grid reveal">
           <ClientOnly>
             <BitsBorderGlow
@@ -40,7 +39,11 @@ useSiteSeo({
               <NuxtLink
                 :to="`/ministries/${m.slug}`"
                 class="ministry-card"
-                :style="m.imageUrl ? {backgroundImage: `url(${m.imageUrl})`} : undefined"
+                :style="
+                  m.imageUrl
+                    ? { backgroundImage: `url(${m.imageUrl})` }
+                    : undefined
+                "
               >
                 <div class="ministry-card__overlay" aria-hidden="true" />
                 <div class="ministry-card__scrim" aria-hidden="true" />
@@ -56,7 +59,11 @@ useSiteSeo({
                 :key="`${m.slug}-fallback`"
                 :to="`/ministries/${m.slug}`"
                 class="ministry-card"
-                :style="m.imageUrl ? {backgroundImage: `url(${m.imageUrl})`} : undefined"
+                :style="
+                  m.imageUrl
+                    ? { backgroundImage: `url(${m.imageUrl})` }
+                    : undefined
+                "
               >
                 <div class="ministry-card__overlay" aria-hidden="true" />
                 <div class="ministry-card__scrim" aria-hidden="true" />
@@ -74,13 +81,6 @@ useSiteSeo({
 </template>
 
 <style scoped>
-.ministries-lead {
-  color: var(--muted);
-  font-size: 1.05rem;
-  max-width: 640px;
-  margin-bottom: 28px;
-}
-
 .ministry-card-glow {
   transition: transform 0.22s ease;
 }
@@ -116,13 +116,17 @@ useSiteSeo({
 .ministry-card__overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.78) 50%, rgba(15, 23, 42, 0.96) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.5) 0%,
+    rgba(15, 23, 42, 0.78) 50%,
+    rgba(15, 23, 42, 0.96) 100%
+  );
   transition: background 0.22s ease;
 }
 
 .ministry-card__overlay::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.22);
@@ -134,13 +138,22 @@ useSiteSeo({
   right: 0;
   bottom: 0;
   height: 58%;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0.82) 100%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.55) 55%,
+    rgba(0, 0, 0, 0.82) 100%
+  );
   pointer-events: none;
 }
 
 .ministry-card:hover .ministry-card__overlay {
-  background:
-    linear-gradient(180deg, rgba(15, 23, 42, 0.55) 0%, rgba(15, 23, 42, 0.84) 50%, rgba(15, 23, 42, 0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.55) 0%,
+    rgba(15, 23, 42, 0.84) 50%,
+    rgba(15, 23, 42, 0.98) 100%
+  );
 }
 
 .ministry-card__content {
@@ -152,7 +165,9 @@ useSiteSeo({
   height: 100%;
   padding: 24px;
   color: var(--white);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 4px 18px rgba(0, 0, 0, 0.35);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 .ministry-card h3 {

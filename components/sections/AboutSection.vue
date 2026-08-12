@@ -23,7 +23,7 @@ const highlightText = computed(() => {
 </script>
 
 <template>
-  <section class="about landing-section landing-section--paper">
+  <section class="about landing-section landing-section--paper landing-section--after-overlap">
     <div class="wrap">
       <div
         class="about-grid"
@@ -107,6 +107,7 @@ const highlightText = computed(() => {
   max-width: none;
   font-size: clamp(1.95rem, 3.8vw, 2.85rem);
   line-height: 1.12;
+  color: var(--blue);
 }
 
 .about-grid--standalone .about-body p {

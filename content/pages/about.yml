@@ -5,7 +5,6 @@ seo:
   description: Who we are at RCCG Word of Life Center — our welcome, mission, vision, and beliefs in Silver Spring, Maryland.
 sections:
   - component: about
-    eyebrow: Welcome
     heading: Welcome to the Redeemed Christian Church of God, / Word of Life Center!
     body:
       - Thank you for visiting us online. We are a Bible-based, Jesus-focused and Spirit-led congregation located in Silver Spring, Maryland. RCCG Word of Life Center is a parish of the Redeemed Christian Church of God in North America (RCCG NA).
@@ -15,17 +14,14 @@ sections:
 
   - component: statements
     items:
-      - eyebrow: Vision
-        heading: Vision Statement
+      - heading: Vision Statement
         body:
           - Making many mighty through the Word and the Holy Spirit.
-      - eyebrow: Mission
-        heading: Mission Statement
+      - heading: Mission Statement
         body:
           - "In God's house, there is neither Jew nor Greek, there is neither bond nor free, there is neither male nor female: for we are all one in Christ Jesus (Gal 3:28). In keeping with this mandate, we aim to spread the message of salvation and the love of Jesus Christ through community outreach and service programs."
 
   - component: pastors
-    eyebrow: Our pastors
     heading: Our Pastors
     subheading: Emmanuel & Elizabeth Ojuolape
     role: Pastors
@@ -33,7 +29,6 @@ sections:
     photoAlt: Pastors Emmanuel and Elizabeth Ojuolape
 
   - component: beliefs
-    eyebrow: What we believe
     heading: What We Believe
     intro: We hold to the foundational truths of the Christian faith as revealed in Scripture.
     items:

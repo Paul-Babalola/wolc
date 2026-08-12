@@ -4,10 +4,12 @@ const defaults = {
   pastors: '/images/site/pastors.jpeg',
   headerWorship: '/images/site/page-header-worship.jpeg',
   membership: '/images/site/membership.jpeg',
-  livestream: '/images/site/livestream.jpeg',
+  livestream: '/images/site/page-header-livestream.jpg',
   contact: '/images/site/contact-sketch.png',
-  ministries: '/images/site/about-church.jpeg',
-  visit: '/images/site/homepage-hero.jpeg',
+  ministries: '/images/site/page-header-ministries.jpg',
+  visit: '/images/site/page-header-visit.jpg',
+  sermons: '/images/site/page-header-sermons.jpg',
+  connectGroup: '/images/site/page-header-connect-group.jpg',
   events: '/images/site/event-worship.jpg',
 } as const
 

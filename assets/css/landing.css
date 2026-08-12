@@ -9,6 +9,23 @@
   padding-top: 0;
 }
 
+.landing-section--flush-bottom {
+  padding-bottom: 0;
+}
+
+.landing-section--compact-top {
+  padding-top: clamp(20px, 2.5vw, 36px);
+}
+
+/* Match breathing room above/below the quick-info card */
+.landing-section--after-overlap {
+  padding-top: clamp(32px, 3.5vw, 40px);
+}
+
+.landing-section--compact-bottom {
+  padding-bottom: clamp(28px, 3.5vw, 44px);
+}
+
 .landing-section--paper {
   background: var(--paper);
 }

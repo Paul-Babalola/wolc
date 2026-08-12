@@ -32,7 +32,7 @@ sections:
 
   - component: about
     eyebrow: Welcome
-    heading: A place of comfort, / hope, and / peace of mind
+    heading: A place of comfort, / hope, and / peace of mind /
     highlight: for your worship.
     body:
       - You are welcome to The Redeemed Christian Church of God Word of Life Center. We are a Bible-based, Jesus-focused and Spirit-led congregation located in Silver Spring, Maryland. RCCG Word of Life Center is a parish of the Redeemed Christian Church of God in North America.
@@ -47,7 +47,6 @@ sections:
   - component: ministries
     eyebrow: Ministries
     heading: Find your place to connect.
-    intro: Covenant Seed, Youth, Women of Grace, Men of Valor, Outreach, and Connect Groups.
 
   - component: sermonFeature
     eyebrow: Livestream

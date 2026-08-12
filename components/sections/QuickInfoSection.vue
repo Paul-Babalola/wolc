@@ -4,12 +4,12 @@ defineProps<{data: any}>()
 const iconPaths = [
   'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
   'M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z',
-  'M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 100-3m0-3a1.5 1.5 0 110-3m0 8.5h3m-3 0a1.5 1.5 0 103 0m-3 0h3',
+  'M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z',
 ]
 </script>
 
 <template>
-  <section class="quick-info landing-section landing-section--flush-top">
+  <section class="quick-info landing-section landing-section--flush-top landing-section--flush-bottom">
     <div class="wrap">
       <div class="quick-info__panel landing-surface reveal">
         <article
@@ -35,8 +35,7 @@ const iconPaths = [
 <style scoped>
 .quick-info {
   z-index: 5;
-  margin-top: clamp(-64px, -7vw, -40px);
-  padding-bottom: clamp(40px, 5vw, 56px);
+  margin-top: clamp(-32px, -3.5vw, -16px);
 }
 
 .quick-info__panel {
