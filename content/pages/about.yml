@@ -29,7 +29,7 @@ sections:
     heading: Our Pastors
     subheading: Emmanuel & Elizabeth Ojuolape
     role: Pastors
-    photoUrl: /pastorspictures.jpeg
+    photoUrl: /images/site/pastors.jpeg
     photoAlt: Pastors Emmanuel and Elizabeth Ojuolape
 
   - component: beliefs
@@ -57,10 +57,10 @@ sections:
         imageUrl: https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=900&q=80
       - title: Salvation
         body: It is a gift from God through grace and faith in Christ Jesus. That all who believe in the name of Jesus Christ may be saved by turning from sin to repentance and are born again by the Holy Spirit through trusting in His death and resurrection.
-        imageUrl: https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=900&q=80
+        imageUrl: /images/site/salvation-prayer.jpg
       - title: Sanctification
         body: Separation from the world unto God – a life of true holiness.
-        imageUrl: https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80
+        imageUrl: https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80
       - title: The Holy Bible
         body: Is the infallible and authoritative Word of God, given directly to all men and women for salvation.
         imageUrl: https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=80

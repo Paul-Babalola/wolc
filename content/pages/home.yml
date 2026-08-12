@@ -9,7 +9,7 @@ sections:
     logoUrl: /rccglogo.png
     headline: Making many mighty through / the Word & the Holy Spirit.
     subtext: Join us this Sunday at 10:00 a.m. — a Bible-based, Jesus-focused, Spirit-led congregation in Silver Spring, Maryland.
-    imageUrl: https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80
+    imageUrl: /images/site/homepage-hero.jpeg
     primaryCta:
       label: Visit us in person
       href: /visit
@@ -37,6 +37,7 @@ sections:
     body:
       - You are welcome to The Redeemed Christian Church of God Word of Life Center. We are a Bible-based, Jesus-focused and Spirit-led congregation located in Silver Spring, Maryland. RCCG Word of Life Center is a parish of the Redeemed Christian Church of God in North America.
       - We are dedicated to spreading the teachings of Jesus Christ, and our goal is to inspire you through the holiness of our dwelling and our services. We invite you to become a part of our congregation, and look forward to meeting you!
+    imageUrl: /images/site/about-church.jpeg
     cta:
       label: Meet our pastors
       href: /about

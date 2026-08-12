@@ -19,6 +19,8 @@ async function submit() {
   }
 }
 
+const {images} = useSiteImages()
+
 useSeoMeta({
   title: 'Prayer Request',
   description: 'Share a prayer request with RCCG Word of Life Center.',
@@ -29,6 +31,7 @@ useSeoMeta({
   <div>
     <PageHeader
       title="Prayer Request"
+      :image="images.headerWorship"
       lead="We would like to pray with you. Kindly fill the form below."
       :crumbs="[{label: 'Home', href: '/'}, {label: 'Prayer Request'}]"
     />

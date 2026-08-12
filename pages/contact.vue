@@ -36,6 +36,8 @@ async function submit() {
   }
 }
 
+const {images} = useSiteImages()
+
 useSeoMeta({
   title: 'Contact',
   description: 'Get connected with RCCG Word of Life Center in Silver Spring, MD.',
@@ -46,6 +48,7 @@ useSeoMeta({
   <div>
     <PageHeader
       title="Get Connected"
+      :image="images.contact"
       :crumbs="[{label: 'Home', href: '/'}, {label: 'Contact'}]"
     />
 

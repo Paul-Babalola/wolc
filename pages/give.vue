@@ -56,6 +56,8 @@ const methods = computed(() => [
   },
 ])
 
+const {images} = useSiteImages()
+
 useSeoMeta({
   title: 'Give',
   description: 'Partner with RCCG Word of Life Center through Zelle, PayPal, text, in person, or mail.',
@@ -67,6 +69,7 @@ useSeoMeta({
     <PageHeader
       title="Give"
       accent="blue"
+      :image="images.headerWorship"
       :crumbs="[{label: 'Home', href: '/'}, {label: 'Give'}]"
     />
 

@@ -182,6 +182,8 @@ function listFadeDelay(groupIndex: number, itemIndex: number) {
   return groupIndex * 0.05 + itemIndex * 0.08
 }
 
+const {images} = useSiteImages()
+
 useSeoMeta({
   title: 'Events',
   description: 'Upcoming events at RCCG Word of Life Center — Sunday worship, Bible study, and special gatherings.',
@@ -192,6 +194,7 @@ useSeoMeta({
   <div>
     <PageHeader
       title="Events"
+      :image="images.events"
       :crumbs="[{label: 'Home', href: '/'}, {label: 'Events'}]"
     />
 

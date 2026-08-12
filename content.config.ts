@@ -51,6 +51,7 @@ const aboutSection = z.object({
   heading: z.string().optional(),
   highlight: z.string().optional(),
   body: z.array(z.string()).optional(),
+  imageUrl: z.string().optional(),
   cta: link.optional(),
   scriptureQuote: z.string().optional(),
   scriptureRef: z.string().optional(),
@@ -164,6 +165,20 @@ export default defineContentConfig({
         email: z.string().optional(),
         phone: z.string().optional(),
         paypalDonateUrl: z.string().url().optional(),
+        images: z
+          .object({
+            hero: z.string().optional(),
+            aboutChurch: z.string().optional(),
+            pastors: z.string().optional(),
+            headerWorship: z.string().optional(),
+            membership: z.string().optional(),
+            livestream: z.string().optional(),
+            contact: z.string().optional(),
+            ministries: z.string().optional(),
+            visit: z.string().optional(),
+            events: z.string().optional(),
+          })
+          .optional(),
         liveStreamUrl: z.string().optional(),
         facebookLiveUrl: z.string().optional(),
         socials: z.array(z.object({platform: z.string(), url: z.string()})).optional(),

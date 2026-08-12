@@ -58,8 +58,18 @@ const isStandaloneWelcome = computed(() => !props.data?.scriptureQuote)
           />
         </div>
 
-        <aside v-if="data.scriptureQuote" class="about-aside reveal">
-          <div class="vision-card">
+        <aside v-if="data.scriptureQuote || data.imageUrl" class="about-aside reveal">
+          <div v-if="data.imageUrl" class="about-photo">
+            <NuxtImg
+              :src="data.imageUrl"
+              alt="RCCG Word of Life Center congregation"
+              width="640"
+              height="480"
+              format="webp"
+              loading="lazy"
+            />
+          </div>
+          <div v-if="data.scriptureQuote" class="vision-card">
             <span class="vision-card__tag">{{ data.scriptureRef || 'Our vision' }}</span>
             <blockquote class="vision-card__quote">
               “{{ data.scriptureQuote }}”
@@ -180,6 +190,26 @@ const isStandaloneWelcome = computed(() => !props.data?.scriptureQuote)
 
 .about-copy .btn {
   margin-top: 4px;
+}
+
+.about-aside {
+  display: grid;
+  gap: 18px;
+}
+
+.about-photo {
+  border-radius: calc(var(--radius-xl) + 4px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 48px rgba(var(--blue-rgb), 0.12);
+}
+
+.about-photo :deep(img) {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
 
 .vision-card {

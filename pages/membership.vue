@@ -18,6 +18,8 @@ const steps = [
   },
 ]
 
+const {images} = useSiteImages()
+
 useSeoMeta({
   title: 'Membership',
   description: 'Become part of the RCCG Word of Life Center church family in Silver Spring, MD.',
@@ -28,6 +30,7 @@ useSeoMeta({
   <div>
     <PageHeader
       title="Membership"
+      :image="images.membership"
       :crumbs="[{label: 'Home', href: '/'}, {label: 'Membership'}]"
     />
 

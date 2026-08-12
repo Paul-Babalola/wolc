@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{data: any}>()
 
-const defaultImage =
-  'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80'
+const defaultImage = '/images/site/homepage-hero.jpeg'
 
 const headlineLines = computed(() =>
   (props.data?.headline || '')

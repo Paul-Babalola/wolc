@@ -7,6 +7,17 @@ mapUrl: https://maps.google.com/?q=11313+Lockwood+Dr,+Silver+Spring,+MD+20904
 email: admin@rccgwordoflifecenter.org
 phone: 301-637-0122
 paypalDonateUrl: https://www.paypal.com/donate/?hosted_button_id=E49YRWWV6Q8ZW
+images:
+  hero: /images/site/homepage-hero.jpeg
+  aboutChurch: /images/site/about-church.jpeg
+  pastors: /images/site/pastors.jpeg
+  headerWorship: /images/site/page-header-worship.jpeg
+  membership: /images/site/membership.jpeg
+  livestream: /images/site/livestream.jpeg
+  contact: /images/site/contact-sketch.png
+  ministries: /images/site/about-church.jpeg
+  visit: /images/site/homepage-hero.jpeg
+  events: /images/site/event-worship.jpg
 liveStreamUrl: https://www.youtube.com/@WolcNetwork/streams
 facebookLiveUrl: https://www.facebook.com/rccg.wolc/live
 socials:

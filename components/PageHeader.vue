@@ -8,6 +8,7 @@ const props = defineProps<{
   crumbs?: Crumb[]
   breadcrumb?: boolean
   accent?: 'blue' | 'green'
+  image?: string
 }>()
 
 const displayCrumbs = computed(() =>
@@ -22,11 +23,21 @@ const displayCrumbs = computed(() =>
     class="page-header"
     :class="[
       accent && `page-header--${accent}`,
-      { 'page-header--has-bg': $slots.background },
+      { 'page-header--has-bg': image || $slots.background },
     ]"
   >
-    <div v-if="$slots.background" class="page-header__bg" aria-hidden="true">
-      <slot name="background" />
+    <div v-if="image || $slots.background" class="page-header__bg" aria-hidden="true">
+      <NuxtImg
+        v-if="image"
+        :src="image"
+        alt=""
+        class="page-header__bg-img"
+        width="1920"
+        height="640"
+        format="webp"
+        loading="lazy"
+      />
+      <slot v-else name="background" />
       <div class="page-header__bg-overlay" />
     </div>
     <div class="wrap page-header__inner">
@@ -58,6 +69,13 @@ const displayCrumbs = computed(() =>
   position: absolute;
   inset: 0;
   z-index: 0;
+}
+
+.page-header__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .page-header__bg-overlay {
