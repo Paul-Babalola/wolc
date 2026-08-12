@@ -20,9 +20,10 @@ const steps = [
 
 const {images} = useSiteImages()
 
-useSeoMeta({
+useSiteSeo({
   title: 'Membership',
   description: 'Become part of the RCCG Word of Life Center church family in Silver Spring, MD.',
+  image: () => images.value.membership,
 })
 </script>
 

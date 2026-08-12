@@ -27,9 +27,10 @@ const smsHref = computed(() => {
   return `sms:+1${digits}?body=${encodeURIComponent(ministry.value.contactKeyword)}`
 })
 
-useSeoMeta({
-  title: ministry.value?.title,
-  description: ministry.value?.blurb,
+useSiteSeo({
+  title: () => ministry.value?.title,
+  description: () => ministry.value?.blurb,
+  image: () => ministry.value?.imageUrl,
 })
 </script>
 

@@ -21,9 +21,10 @@ function formatDate(iso: string) {
 
 const glowColors = ['#2563eb', '#38bdf8', '#818cf8']
 
-useSeoMeta({
+useSiteSeo({
   title: 'Sermons',
   description: 'Watch recent messages from RCCG Word of Life Center on YouTube.',
+  image: () => videos.value?.[0]?.thumbnailUrl,
 })
 </script>
 

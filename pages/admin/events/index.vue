@@ -180,7 +180,7 @@ function formatWhen(iso: string) {
   }).format(new Date(iso))
 }
 
-useSeoMeta({title: 'Manage events', robots: 'noindex, nofollow'})
+useSiteSeo({title: 'Manage events', description: 'Staff event management.', noindex: true})
 </script>
 
 <template>

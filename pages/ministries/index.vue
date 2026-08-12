@@ -5,9 +5,11 @@ const {data: ministries} = await useAsyncData('ministries-page', () =>
 
 const glowColors = ['#2563eb', '#38bdf8', '#818cf8']
 
-useSeoMeta({
+useSiteSeo({
   title: 'Ministries',
-  description: 'Covenant Seed, Youth, Women of Grace, Men of Valor, Outreach, and Connect Groups at RCCG Word of Life Center.',
+  description:
+    'Covenant Seed, Youth, Women of Grace, Men of Valor, Outreach, and Connect Groups at RCCG Word of Life Center.',
+  image: '/images/site/about-church.jpeg',
 })
 </script>
 

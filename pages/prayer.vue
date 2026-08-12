@@ -21,9 +21,10 @@ async function submit() {
 
 const {images} = useSiteImages()
 
-useSeoMeta({
+useSiteSeo({
   title: 'Prayer Request',
   description: 'Share a prayer request with RCCG Word of Life Center.',
+  image: () => images.value.headerWorship,
 })
 </script>
 

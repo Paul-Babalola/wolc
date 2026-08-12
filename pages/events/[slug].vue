@@ -163,9 +163,11 @@ async function submitRsvp() {
   }
 }
 
-useSeoMeta({
+useSiteSeo({
   title: () => event.value?.title || 'Event',
-  description: () => event.value?.summary || event.value?.description || 'Event at RCCG Word of Life Center.',
+  description: () =>
+    event.value?.summary || event.value?.description || 'Event at RCCG Word of Life Center.',
+  image: () => event.value?.image_url || undefined,
 })
 
 watch(

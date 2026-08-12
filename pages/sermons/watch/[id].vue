@@ -25,9 +25,10 @@ watch(
 
 const embedUrl = computed(() => `https://www.youtube.com/embed/${videoId.value}`)
 
-useSeoMeta({
+useSiteSeo({
   title: () => video.value?.title || 'Sermon',
   description: 'Watch this message from RCCG Word of Life Center.',
+  image: () => video.value?.thumbnailUrl,
 })
 </script>
 

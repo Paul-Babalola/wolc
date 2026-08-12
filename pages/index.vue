@@ -7,9 +7,10 @@ if (!page.value) {
   throw createError({statusCode: 404, statusMessage: 'Home page not found', fatal: true})
 }
 
-useSeoMeta({
+useSiteSeo({
   title: page.value?.seo?.title || page.value?.title,
   description: page.value?.seo?.description,
+  image: '/images/site/homepage-hero.jpeg',
 })
 </script>
 

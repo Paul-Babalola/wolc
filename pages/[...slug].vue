@@ -12,7 +12,7 @@ if (!page.value) {
 
 const pageAccent = computed(() => (slug === 'give' ? 'green' : 'blue') as 'blue' | 'green')
 
-useSeoMeta({
+useSiteSeo({
   title: page.value?.seo?.title || page.value?.title,
   description: page.value?.seo?.description,
 })

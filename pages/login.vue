@@ -29,7 +29,7 @@ async function signIn() {
   await navigateTo(redirect)
 }
 
-useSeoMeta({title: 'Admin sign in', robots: 'noindex, nofollow'})
+useSiteSeo({title: 'Admin sign in', description: 'Staff sign in for RCCG Word of Life Center.', noindex: true})
 </script>
 
 <template>

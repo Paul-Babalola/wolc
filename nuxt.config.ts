@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import {legacyRedirectRouteRules} from './config/wordpress-redirects'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: {enabled: process.env.NODE_ENV === 'development'},
@@ -52,8 +54,8 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    ...legacyRedirectRouteRules(),
     '/': {prerender: true},
-    '/prayer-request': {redirect: '/prayer'},
     '/about': {prerender: true},
     '/visit': {prerender: true},
     '/give': {prerender: true},

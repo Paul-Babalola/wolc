@@ -48,9 +48,12 @@ const steps = [
   },
 ]
 
-useSeoMeta({
+const {images} = useSiteImages()
+
+useSiteSeo({
   title: 'Plan a Visit',
   description: 'What to expect on your first Sunday at RCCG Word of Life Center in Silver Spring, MD.',
+  image: () => images.value.visit,
 })
 </script>
 

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nuxtjs",
+  "regions": ["iad1"],
+  "redirects": [
+    {
+      "source": "/prayer-request",
+      "destination": "/prayer",
+      "permanent": true
+    },
+    {
+      "source": "/prayer-request/",
+      "destination": "/prayer",
+      "permanent": true
+    },
+    {
+      "source": "/ministries/outreach-ministry",
+      "destination": "/ministries/outreach",
+      "permanent": true
+    },
+    {
+      "source": "/ministries/outreach-ministry/",
+      "destination": "/ministries/outreach",
+      "permanent": true
+    },
+    {
+      "source": "/leadership",
+      "destination": "/about#pastors",
+      "permanent": true
+    },
+    {
+      "source": "/leadership/",
+      "destination": "/about#pastors",
+      "permanent": true
+    },
+    {
+      "source": "/watch-live",
+      "destination": "/livestream",
+      "permanent": true
+    },
+    {
+      "source": "/watch-live/",
+      "destination": "/livestream",
+      "permanent": true
+    },
+    {
+      "source": "/plan-a-visit",
+      "destination": "/visit",
+      "permanent": true
+    },
+    {
+      "source": "/plan-a-visit/",
+      "destination": "/visit",
+      "permanent": true
+    },
+    {
+      "source": "/online-giving",
+      "destination": "/give",
+      "permanent": true
+    },
+    {
+      "source": "/online-giving/",
+      "destination": "/give",
+      "permanent": true
+    },
+    {
+      "source": "/donate",
+      "destination": "/give",
+      "permanent": true
+    },
+    {
+      "source": "/donate/",
+      "destination": "/give",
+      "permanent": true
+    },
+    {
+      "source": "/events/list",
+      "destination": "/events",
+      "permanent": true
+    },
+    {
+      "source": "/events/list/",
+      "destination": "/events",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}

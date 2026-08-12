@@ -16,9 +16,9 @@ const embedUrl = computed(() => {
   return match ? `https://www.youtube.com/embed/${match[1]}` : url
 })
 
-useSeoMeta({
-  title: sermon.value?.title,
-  description: sermon.value?.scripture,
+useSiteSeo({
+  title: () => sermon.value?.title,
+  description: () => sermon.value?.scripture || 'Message from RCCG Word of Life Center.',
 })
 </script>
 

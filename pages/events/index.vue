@@ -184,9 +184,10 @@ function listFadeDelay(groupIndex: number, itemIndex: number) {
 
 const {images} = useSiteImages()
 
-useSeoMeta({
+useSiteSeo({
   title: 'Events',
   description: 'Upcoming events at RCCG Word of Life Center — Sunday worship, Bible study, and special gatherings.',
+  image: () => images.value.events,
 })
 </script>
 

@@ -19,9 +19,10 @@ const streamUrl = computed(() => settings.value?.liveStreamUrl || 'https://www.y
 const facebookUrl = computed(() => settings.value?.facebookLiveUrl || 'https://www.facebook.com/rccg.wolc/live')
 const youtubeThumb = computed(() => videos.value?.[0]?.thumbnailUrl || '')
 
-useSeoMeta({
+useSiteSeo({
   title: 'Livestream',
   description: 'Watch RCCG Word of Life Center live online every Sunday at 10:00 AM.',
+  image: () => youtubeThumb.value || '/images/site/livestream.jpeg',
 })
 </script>
 

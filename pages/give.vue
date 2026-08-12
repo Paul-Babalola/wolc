@@ -58,9 +58,10 @@ const methods = computed(() => [
 
 const {images} = useSiteImages()
 
-useSeoMeta({
+useSiteSeo({
   title: 'Give',
   description: 'Partner with RCCG Word of Life Center through Zelle, PayPal, text, in person, or mail.',
+  image: () => images.value.headerWorship,
 })
 </script>
 

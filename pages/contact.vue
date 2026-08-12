@@ -43,6 +43,7 @@ const {images} = useSiteImages()
 useSiteSeo({
   title: 'Contact',
   description: 'Get connected with RCCG Word of Life Center in Silver Spring, MD.',
+  image: () => images.value.contact,
 })
 </script>
 
