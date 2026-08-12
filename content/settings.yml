@@ -1,0 +1,62 @@
+title: RCCG
+subtitle: Word of Life Center
+tagline: Making many mighty through the Word and the Holy Spirit.
+serviceTimes: Sundays at 10:00 AM · Wednesdays Bible Study at 7:00 PM
+address: 11313 Lockwood Dr, Silver Spring MD 20904
+mapUrl: https://maps.google.com/?q=11313+Lockwood+Dr,+Silver+Spring,+MD+20904
+email: admin@rccgwordoflifecenter.org
+phone: 301-637-0122
+liveStreamUrl: https://www.youtube.com/@WolcNetwork/streams
+facebookLiveUrl: https://www.facebook.com/rccg.wolc/live
+socials:
+  - platform: YouTube
+    url: https://www.youtube.com/@WolcNetwork
+  - platform: Instagram
+    url: https://www.instagram.com/rccgwolc
+  - platform: Facebook
+    url: https://www.facebook.com/rccg.wolc
+primaryNav:
+  - label: I'm New
+    href: /visit
+    children:
+      - label: Plan a Visit
+        href: /visit
+        description: What to expect on your first Sunday
+      - label: About & Beliefs
+        href: /about
+        description: Who we are and what we believe
+      - label: Our Leadership
+        href: /about#pastors
+        description: Meet Pastors Emmanuel & Elizabeth Ojuolape
+      - label: Contact
+        href: /contact
+        description: Get in touch
+  - label: Watch
+    href: /sermons
+    children:
+      - label: Sermons
+        href: /sermons
+        description: Messages on demand
+      - label: Watch Live
+        href: /livestream
+        description: Join the Sunday stream at 10:00 AM
+  - label: Connect
+    href: /ministries
+    children:
+      - label: Ministries
+        href: /ministries
+        description: Covenant Seed, Youth, Women, Men & Outreach
+      - label: Prayer
+        href: /prayer
+        description: Send a request to our prayer team
+      - label: Membership
+        href: /membership
+        description: Become part of the church family
+      - label: Connect Group
+        href: /ministries/connect-group
+        description: Find a small group near you
+  - label: Events
+    href: /events
+  - label: Give
+    href: /give
+    highlight: true

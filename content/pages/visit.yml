@@ -1,0 +1,24 @@
+slug: visit
+title: Plan a Visit
+seo:
+  title: Plan a Visit
+  description: Sunday worship at 10:00 AM in Silver Spring, MD. Come as you are — look for our welcome team and we'll help you get settled.
+sections:
+  - component: quickInfo
+    layout: cards
+    items:
+      - icon: "🕙"
+        heading: Sundays at 10:00 AM
+        body: Weekly worship at the church auditorium. Plan for about two hours of worship and the Word.
+      - icon: "🅿️"
+        heading: Getting here
+        body: 11313 Lockwood Dr, Silver Spring MD 20904. Free parking on site — a team member will point you the right way.
+      - icon: "🧸"
+        heading: Children
+        body: Our children's ministry welcomes kids of all ages so your whole family can worship with peace of mind.
+  - component: map
+    eyebrow: Location
+    heading: Find us
+    address: 11313 Lockwood Dr, Silver Spring MD 20904
+    serviceTimes: Sundays at 10:00 AM · Wednesdays Bible Study at 7:00 PM
+    directionsUrl: https://maps.google.com/?q=11313+Lockwood+Dr,+Silver+Spring,+MD+20904

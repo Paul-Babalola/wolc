@@ -1,0 +1,3 @@
+-- Demo placeholder events removed from seed.
+-- Public calendar uses auto-generated Bible Study and Sunday Service.
+-- Add real one-off events via /admin/events.

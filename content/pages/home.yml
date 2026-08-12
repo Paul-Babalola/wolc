@@ -1,0 +1,78 @@
+slug: home
+title: Home
+seo:
+  title: RCCG Word of Life Center
+  description: A Bible-based, Jesus-focused, Spirit-led congregation in Silver Spring, Maryland.
+sections:
+  - component: hero
+    eyebrow: RCCG · WORD OF LIFE CENTER · SILVER SPRING, MD
+    logoUrl: /rccglogo.png
+    headline: Making many mighty through / the Word & the Holy Spirit.
+    subtext: Join us this Sunday at 10:00 a.m. — a Bible-based, Jesus-focused, Spirit-led congregation in Silver Spring, Maryland.
+    imageUrl: https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80
+    primaryCta:
+      label: Visit us in person
+      href: /visit
+    secondaryCta:
+      label: Watch on YouTube
+      href: https://www.youtube.com/@WolcNetwork
+      external: true
+
+  - component: quickInfo
+    items:
+      - icon: "🕙"
+        heading: Sundays at 10:00 AM
+        body: Weekly worship at the church auditorium. Join us for an amazing worship experience.
+      - icon: "📍"
+        heading: Silver Spring, MD
+        body: 11313 Lockwood Dr, Silver Spring MD 20904. Easy to find — look for the welcome team at the door.
+      - icon: "👋"
+        heading: Welcome!
+        body: You are welcome to RCCG Word of Life Center. We invite you to become part of our congregation.
+
+  - component: about
+    eyebrow: Welcome
+    heading: A place of comfort, / hope, and / peace of mind
+    highlight: for your worship.
+    body:
+      - You are welcome to The Redeemed Christian Church of God Word of Life Center. We are a Bible-based, Jesus-focused and Spirit-led congregation located in Silver Spring, Maryland. RCCG Word of Life Center is a parish of the Redeemed Christian Church of God in North America.
+      - We are dedicated to spreading the teachings of Jesus Christ, and our goal is to inspire you through the holiness of our dwelling and our services. We invite you to become a part of our congregation, and look forward to meeting you!
+    cta:
+      label: Meet our pastors
+      href: /about
+    scriptureQuote: Making many mighty through the Word and the Holy Spirit.
+    scriptureRef: Our vision
+
+  - component: ministries
+    eyebrow: Ministries
+    heading: Find your place to connect.
+    intro: Covenant Seed, Youth, Women of Grace, Men of Valor, Outreach, and Connect Groups.
+
+  - component: sermonFeature
+    eyebrow: Livestream
+    heading: Can't make it in person? Watch live.
+    body: Join us online every Sunday at 10:00 AM, or catch up on messages anytime. Wednesday Bible Study streams at 7:00 PM.
+    primaryCta:
+      label: Watch on YouTube
+      href: https://www.youtube.com/@WolcNetwork
+      external: true
+    secondaryCta:
+      label: Browse sermons
+      href: /sermons
+
+  - component: events
+    eyebrow: What's on
+    heading: Mark your calendar.
+    intro: Sunday worship, Bible study, and special events throughout the year.
+    limit: 4
+
+  - component: cta
+    heading: Join us this Sunday / at 10:00 a.m.
+    body: We look forward to meeting you. Plan your visit or watch online.
+    primaryCta:
+      label: Visit us in person
+      href: /visit
+    secondaryCta:
+      label: Watch on YouTube
+      href: https://www.youtube.com/@WolcNetwork
+      external: true

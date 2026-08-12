@@ -1,0 +1,72 @@
+slug: about
+title: About
+seo:
+  title: About Us
+  description: Who we are at RCCG Word of Life Center — our welcome, mission, vision, and beliefs in Silver Spring, Maryland.
+sections:
+  - component: about
+    eyebrow: Welcome
+    heading: Welcome to the Redeemed Christian Church of God, / Word of Life Center!
+    body:
+      - Thank you for visiting us online. We are a Bible-based, Jesus-focused and Spirit-led congregation located in Silver Spring, Maryland. RCCG Word of Life Center is a parish of the Redeemed Christian Church of God in North America (RCCG NA).
+      - At Word of Life Center, we believe that no talent is too small or gift too great to be used of God. Our mission is to spread the message of salvation, build people and families rooted in the word of God, and share the love of Jesus Christ in our communities.
+      - It is our prayer that you and your family will enjoy the blessings of knowing the Lord and accepting him as your Savior. Explore our website to learn more about our ministries and the power of God's love in our church. We welcome you today and hope that you will join us as we trust in the Lord God to manifest signs and wonders and His promised visitation.
+      - Once again, thank you for visiting our website and welcome to our family, the Redeemed Christian Church of God, Word of Life Center.
+
+  - component: statements
+    items:
+      - eyebrow: Vision
+        heading: Vision Statement
+        body:
+          - Making many mighty through the Word and the Holy Spirit.
+      - eyebrow: Mission
+        heading: Mission Statement
+        body:
+          - "In God's house, there is neither Jew nor Greek, there is neither bond nor free, there is neither male nor female: for we are all one in Christ Jesus (Gal 3:28). In keeping with this mandate, we aim to spread the message of salvation and the love of Jesus Christ through community outreach and service programs."
+
+  - component: pastors
+    eyebrow: Our pastors
+    heading: Our Pastors
+    subheading: Emmanuel & Elizabeth Ojuolape
+    role: Pastors
+    photoUrl: /pastorspictures.jpeg
+    photoAlt: Pastors Emmanuel and Elizabeth Ojuolape
+
+  - component: beliefs
+    eyebrow: What we believe
+    heading: What We Believe
+    intro: We hold to the foundational truths of the Christian faith as revealed in Scripture.
+    items:
+      - title: God the Father
+        body: Creator of Heaven and Earth, who made man in His own image and likeness.
+        imageUrl: https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=900&q=80
+      - title: Jesus Christ
+        body: The only begotten Son of God the Father.
+        imageUrl: https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=900&q=80
+      - title: The Holy Spirit
+        body: The comforter and teacher of all things who dwells within us, uniting us to Jesus Christ.
+        imageUrl: https://images.unsplash.com/photo-1507126882445-434b04530d1a?auto=format&fit=crop&w=900&q=80
+      - title: Death and Resurrection of Jesus Christ
+        body: That Jesus Christ died on the cross at Calvary for the sins of mankind. He rose from the dead in His glorified body on the third day, and He ascended into heaven where He is seated at the right hand of God the Father.
+        imageUrl: https://images.unsplash.com/photo-1573671935872-7c0e2d096245?auto=format&fit=crop&w=900&q=80
+      - title: The Blood of Jesus Christ
+        body: Which was shed for us at Calvary. It cleanses us of all sin and grants us access into the presence of God.
+        imageUrl: https://images.unsplash.com/photo-1545655860-c8ca502605c8?auto=format&fit=crop&w=900&q=80
+      - title: Water Baptism
+        body: By immersion in water as Jesus Christ was baptized.
+        imageUrl: https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=900&q=80
+      - title: Salvation
+        body: It is a gift from God through grace and faith in Christ Jesus. That all who believe in the name of Jesus Christ may be saved by turning from sin to repentance and are born again by the Holy Spirit through trusting in His death and resurrection.
+        imageUrl: https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=900&q=80
+      - title: Sanctification
+        body: Separation from the world unto God – a life of true holiness.
+        imageUrl: https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80
+      - title: The Holy Bible
+        body: Is the infallible and authoritative Word of God, given directly to all men and women for salvation.
+        imageUrl: https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=80
+      - title: The Second Coming of Jesus Christ
+        body: That Jesus Christ will come again to earth in glory and in power. Those dead in Christ will rise first and those alive in Christ will be in the presence of God for eternity.
+        imageUrl: https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80
+      - title: The Mandate
+        body: That man was created in the image and likeness of God to be fruitful, to multiply, to replenish the earth, to subdue it, and to have dominion over it.
+        imageUrl: https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80
