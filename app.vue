@@ -51,8 +51,10 @@ useHead({
   <div>
     <a href="#main" class="skip-link">Skip to content</a>
     <TheHeader v-if="!isBareShell" :settings="settings" />
-    <main id="main">
-      <NuxtPage />
+    <main id="main" :class="{'main--bare': isBareShell}">
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
     </main>
     <TheFooter v-if="!isBareShell" :settings="settings" />
   </div>

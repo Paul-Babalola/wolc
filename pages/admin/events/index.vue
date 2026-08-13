@@ -184,13 +184,15 @@ useSiteSeo({title: 'Manage events', description: 'Staff event management.', noin
 </script>
 
 <template>
-  <div>
-    <div class="page-head">
+  <div class="admin-page">
+    <div class="admin-page-head">
       <div>
         <h1>Events</h1>
-        <p class="page-lead">Add special one-off events to the public calendar. Bible Study and Sunday Service are generated automatically each week.</p>
+        <p class="admin-page-lead">Add special one-off events to the public calendar. Bible Study and Sunday Service are generated automatically each week.</p>
       </div>
-      <button class="btn btn-ghost" type="button" @click="startCreate">New event</button>
+      <div class="admin-page-actions">
+        <button class="btn btn-ghost-dark" type="button" @click="startCreate">New event</button>
+      </div>
     </div>
 
     <div class="admin-grid">
@@ -263,8 +265,8 @@ useSiteSeo({title: 'Manage events', description: 'Staff event management.', noin
             <span>Published on the public site</span>
           </label>
 
-          <p v-if="formError" class="form-error">{{ formError }}</p>
-          <p v-if="formSuccess" class="form-success">{{ formSuccess }}</p>
+          <p v-if="formError" class="admin-error">{{ formError }}</p>
+          <p v-if="formSuccess" class="admin-success">{{ formSuccess }}</p>
 
           <div class="form-actions">
             <button class="btn btn-primary" type="submit" :disabled="saving">
@@ -272,7 +274,7 @@ useSiteSeo({title: 'Manage events', description: 'Staff event management.', noin
             </button>
             <button
               v-if="editingId"
-              class="btn btn-ghost"
+              class="btn btn-ghost-dark"
               type="button"
               @click="resetForm"
             >
@@ -282,37 +284,37 @@ useSiteSeo({title: 'Manage events', description: 'Staff event management.', noin
         </form>
       </section>
 
-      <section class="list-panel">
-        <div class="list-head">
+      <section class="admin-panel list-panel">
+        <div class="admin-panel-head">
           <h2>Saved events</h2>
-          <span class="list-count">{{ events?.length || 0 }}</span>
+          <span class="admin-count">{{ events?.length || 0 }}</span>
         </div>
 
-        <p v-if="loadError" class="form-error">Could not load events. Check Supabase configuration.</p>
-        <p v-else-if="pending" class="list-empty">Loading…</p>
-        <p v-else-if="!events?.length" class="list-empty">No custom events yet.</p>
+        <p v-if="loadError" class="admin-error">Could not load events. Check Supabase configuration.</p>
+        <p v-else-if="pending" class="admin-empty">Loading…</p>
+        <p v-else-if="!events?.length" class="admin-empty">No custom events yet.</p>
 
-        <ul v-else class="event-list">
-          <li v-for="event in events" :key="event.id" class="event-item">
-            <div class="event-main">
-              <div class="event-title-row">
+        <ul v-else class="admin-list">
+          <li v-for="event in events" :key="event.id" class="admin-list-item">
+            <div>
+              <div class="admin-list-title-row">
                 <h3>{{ event.title }}</h3>
-                <span class="status-pill" :class="{draft: !event.published}">
+                <span class="admin-pill" :class="event.published ? '' : 'muted'">
                   {{ event.published ? 'Published' : 'Draft' }}
                 </span>
               </div>
-              <p class="event-meta">{{ formatWhen(event.starts_at) }}</p>
-              <p v-if="event.location" class="event-meta">{{ event.location }}</p>
-              <p v-if="event.summary" class="event-summary">{{ event.summary }}</p>
-              <NuxtLink class="event-link" :to="`/events/${event.slug}`" target="_blank">
+              <p class="admin-meta">{{ formatWhen(event.starts_at) }}</p>
+              <p v-if="event.location" class="admin-meta">{{ event.location }}</p>
+              <p v-if="event.summary" class="admin-message">{{ event.summary }}</p>
+              <NuxtLink class="admin-link" :to="`/events/${event.slug}`" target="_blank">
                 /events/{{ event.slug }}
               </NuxtLink>
             </div>
 
-            <div class="event-actions">
-              <button class="text-btn" type="button" @click="startEdit(event)">Edit</button>
+            <div class="admin-actions-col">
+              <button class="admin-text-btn" type="button" @click="startEdit(event)">Edit</button>
               <button
-                class="text-btn danger"
+                class="admin-text-btn danger"
                 type="button"
                 :disabled="deletingId === event.id"
                 @click="removeEvent(event)"
@@ -328,38 +330,6 @@ useSiteSeo({title: 'Manage events', description: 'Staff event management.', noin
 </template>
 
 <style scoped>
-.page-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-h1 {
-  font-family: var(--display);
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
-  margin-bottom: 8px;
-}
-
-h2 {
-  font-family: var(--display);
-  font-size: 1.25rem;
-  margin-bottom: 18px;
-}
-
-.page-lead {
-  color: var(--muted);
-  max-width: 52ch;
-}
-
-.admin-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: 24px;
-  align-items: start;
-}
-
 .field-label {
   display: block;
   font-size: 0.88rem;
@@ -379,145 +349,9 @@ h2 {
   gap: 10px;
 }
 
-.form-error {
-  color: var(--error);
-  font-size: 0.92rem;
-}
-
-.form-success {
-  color: var(--green);
-  font-size: 0.92rem;
-}
-
-.list-panel {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-}
-
-.list-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.list-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 28px;
-  height: 28px;
-  padding: 0 8px;
-  border-radius: 999px;
-  background: var(--blue-soft);
-  color: var(--blue);
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.list-empty {
-  color: var(--muted);
-}
-
-.event-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.event-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px 0;
-  border-top: 1px solid var(--line);
-}
-
-.event-item:first-child {
-  border-top: none;
-  padding-top: 0;
-}
-
-.event-title-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
-}
-
-.event-title-row h3 {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.status-pill {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: var(--green-soft);
-  color: var(--green);
-}
-
-.status-pill.draft {
-  background: rgba(26, 26, 26, 0.08);
-  color: var(--muted);
-}
-
-.event-meta,
-.event-summary {
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.event-summary {
-  margin-top: 6px;
-}
-
-.event-link {
-  display: inline-block;
-  margin-top: 8px;
-  font-size: 0.86rem;
-  color: var(--blue);
-}
-
-.event-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.text-btn {
-  background: none;
-  border: none;
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--blue);
-  cursor: pointer;
-  text-align: right;
-}
-
-.text-btn.danger {
-  color: var(--error);
-}
-
 @media (max-width: 960px) {
-  .admin-grid,
   .field-row {
     grid-template-columns: 1fr;
-  }
-
-  .page-head {
-    flex-direction: column;
   }
 }
 </style>

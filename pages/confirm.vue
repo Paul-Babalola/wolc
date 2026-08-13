@@ -1,10 +1,10 @@
 <script setup lang="ts">
-definePageMeta({layout: 'admin'})
+definePageMeta({layout: 'auth'})
 
 const user = useSupabaseUser()
 
 watchEffect(() => {
-  if (user.value) navigateTo('/admin/events')
+  if (user.value) navigateTo('/admin')
 })
 </script>
 
@@ -20,5 +20,8 @@ watchEffect(() => {
   display: grid;
   place-items: center;
   color: var(--muted);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(var(--blue-rgb), 0.07), transparent 34%),
+    linear-gradient(180deg, #f3f6fb 0%, var(--paper) 100%);
 }
 </style>

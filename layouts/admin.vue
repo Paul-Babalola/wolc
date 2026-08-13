@@ -1,100 +1,138 @@
 <script setup lang="ts">
+import logoUrl from '~/assets/css/images/logo.png'
+
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
+const route = useRoute()
+const mobileOpen = ref(false)
+
+const {items} = useAdminNav()
+
+const userInitial = computed(() => {
+  const email = user.value?.email || ''
+  return email ? email.charAt(0).toUpperCase() : '?'
+})
+
+const displayName = computed(() => {
+  const email = user.value?.email || ''
+  if (!email) return 'Staff'
+  const local = email.split('@')[0] || 'Staff'
+  return local
+    .split(/[._-]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
+})
+
+const activeLabel = computed(() => items.value.find((item) => item.active)?.label || 'Admin')
 
 async function signOut() {
   await supabase.auth.signOut()
   await navigateTo('/login')
 }
+
+watch(() => route.path, () => {
+  mobileOpen.value = false
+})
 </script>
 
 <template>
-  <div class="admin-shell">
-    <header class="admin-bar">
-      <div class="admin-bar-inner">
-        <div>
-          <p class="admin-eyebrow">Word of Life Center</p>
-          <p class="admin-title">Admin</p>
+  <div class="admin-root" :class="{'admin-nav-open': mobileOpen}">
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <div class="admin-brand">
+        <NuxtLink to="/admin" class="admin-brand-link">
+          <img :src="logoUrl" alt="RCCG Word of Life Center" class="admin-brand-logo" width="140" height="28">
+        </NuxtLink>
+      </div>
+
+      <nav class="admin-nav">
+        <NuxtLink
+          v-for="item in items"
+          :key="item.to"
+          :to="item.to"
+          class="admin-nav-link"
+          :class="{active: item.active}"
+        >
+          <span class="admin-nav-icon">
+            <AdminIcon :name="item.tone" />
+          </span>
+          <span class="admin-nav-text">
+            <span class="admin-nav-label">{{ item.label }}</span>
+            <span v-if="item.description" class="admin-nav-desc">{{ item.description }}</span>
+          </span>
+        </NuxtLink>
+      </nav>
+
+      <div class="admin-sidebar-foot">
+        <div v-if="user?.email" class="admin-user-card">
+          <span class="admin-user-avatar">{{ userInitial }}</span>
+          <span class="admin-user-info">
+            <span class="admin-user-name">{{ displayName }}</span>
+            <span class="admin-user-email">{{ user.email }}</span>
+          </span>
         </div>
 
-        <div class="admin-actions">
-          <span v-if="user?.email" class="admin-user">{{ user.email }}</span>
-          <NuxtLink class="admin-link" to="/events" target="_blank">View events</NuxtLink>
-          <button class="admin-link admin-link-btn" type="button" @click="signOut">Sign out</button>
+        <div class="admin-sidebar-actions">
+          <NuxtLink class="admin-foot-link" to="/" target="_blank">View public site</NuxtLink>
+          <button class="admin-foot-link admin-foot-link--button" type="button" @click="signOut">Sign out</button>
         </div>
       </div>
-    </header>
+    </aside>
 
-    <main class="admin-main">
-      <slot />
-    </main>
+    <button
+      v-if="mobileOpen"
+      class="admin-sidebar-backdrop"
+      type="button"
+      aria-label="Close menu"
+      @click="mobileOpen = false"
+    />
+
+    <div class="admin-main-wrap">
+      <header class="admin-header">
+        <div class="admin-header-start">
+          <p class="admin-welcome">Welcome back, <strong>{{ displayName }}</strong></p>
+          <p class="admin-header-page">{{ activeLabel }}</p>
+        </div>
+
+        <div class="admin-header-end">
+          <button class="admin-menu-btn btn btn-ghost-dark" type="button" @click="mobileOpen = !mobileOpen">
+            {{ mobileOpen ? 'Close' : 'Menu' }}
+          </button>
+
+          <div v-if="user?.email" class="admin-profile">
+            <span class="admin-user-avatar">{{ userInitial }}</span>
+            <span class="admin-profile-text">
+              <span class="admin-profile-role">Staff admin</span>
+              <span class="admin-profile-name">{{ displayName }}</span>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <nav v-if="mobileOpen" class="admin-mobile-nav" aria-label="Admin mobile">
+        <NuxtLink
+          v-for="item in items"
+          :key="item.to"
+          :to="item.to"
+          class="admin-nav-link"
+          :class="{active: item.active}"
+        >
+          <span class="admin-nav-icon">
+            <AdminIcon :name="item.tone" />
+          </span>
+          <span class="admin-nav-text">
+            <span class="admin-nav-label">{{ item.label }}</span>
+          </span>
+        </NuxtLink>
+      </nav>
+
+      <main class="admin-main">
+        <slot />
+      </main>
+    </div>
   </div>
 </template>
 
-<style scoped>
-.admin-shell {
-  min-height: 100vh;
-  background: var(--paper);
-}
-
-.admin-bar {
-  border-bottom: 1px solid var(--line);
-  background: var(--white);
-}
-
-.admin-bar-inner {
-  max-width: var(--page-width);
-  margin: 0 auto;
-  padding: 16px var(--layout-shell-x);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.admin-eyebrow {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.admin-title {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-
-.admin-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.admin-user {
-  font-size: 0.88rem;
-  color: var(--muted);
-}
-
-.admin-link {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--blue);
-}
-
-.admin-link-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.admin-main {
-  max-width: var(--page-width);
-  margin: 0 auto;
-  padding: 28px var(--layout-shell-x) 48px;
-}
+<style>
+@import '~/assets/css/admin.css';
 </style>
