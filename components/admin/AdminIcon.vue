@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  name: 'dashboard' | 'events' | 'rsvps' | 'inbox' | 'prayer' | 'newsletter'
+  name: 'dashboard' | 'events' | 'rsvps' | 'inbox' | 'prayer' | 'newsletter' | 'content'
 }>()
 </script>
 
@@ -37,6 +37,11 @@ defineProps<{
     <template v-else-if="name === 'newsletter'">
       <path d="M12 21s7-4.5 7-10V6l-7-3-7 3v5c0 5.5 7 10 7 10Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
       <path d="m9.5 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </template>
+
+    <template v-else-if="name === 'content'">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     </template>
   </svg>
 </template>

@@ -56,6 +56,10 @@ useSiteSeo({
             <cite v-if="ministry.quoteRef">{{ ministry.quoteRef }}</cite>
           </blockquote>
 
+          <p v-if="ministry?.blurb && !ministry?.body?.length" class="ministry-lead">
+            {{ ministry.blurb }}
+          </p>
+
           <div v-if="ministry?.body?.length" class="ministry-copy">
             <p v-for="(para, i) in ministry.body" :key="i">{{ para }}</p>
           </div>
@@ -122,6 +126,13 @@ useSiteSeo({
   font-weight: 600;
   color: var(--blue);
   letter-spacing: 0.04em;
+}
+
+.ministry-lead {
+  color: var(--ink-2);
+  font-size: 1.12rem;
+  line-height: 1.65;
+  margin-bottom: 8px;
 }
 
 .ministry-copy p {

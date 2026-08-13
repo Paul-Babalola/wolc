@@ -81,13 +81,19 @@ useSiteSeo({title: 'Admin dashboard', description: 'Staff dashboard.', noindex: 
       </article>
     </div>
 
+    <!-- Content editing (Nuxt Studio) — enable when GitHub OAuth is configured
     <section class="admin-panel">
       <div class="admin-panel-head">
         <h2>Content editing</h2>
       </div>
       <p class="admin-meta">
-        Page copy, ministries, and site settings live in Nuxt Content. Edit via git or Nuxt Studio when connected.
+        Edit homepage sections, ministries, team bios, sermons, and site settings with Nuxt Studio.
+        Changes publish to GitHub and deploy on the next build.
       </p>
+      <NuxtLink class="btn btn-primary" to="/admin/content" style="margin-top: 16px; display: inline-flex;">
+        Open content editor
+      </NuxtLink>
     </section>
+    -->
   </div>
 </template>

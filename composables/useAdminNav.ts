@@ -1,4 +1,4 @@
-export type AdminTone = 'dashboard' | 'events' | 'rsvps' | 'inbox' | 'prayer' | 'newsletter'
+export type AdminTone = 'dashboard' | 'events' | 'rsvps' | 'inbox' | 'prayer' | 'newsletter' | 'content'
 
 export interface AdminNavItem {
   label: string
@@ -8,7 +8,8 @@ export interface AdminNavItem {
 }
 
 export const ADMIN_NAV: AdminNavItem[] = [
-  {label: 'Dashboard', to: '/admin', description: 'Overview and quick links', tone: 'dashboard'},
+  {label: 'Dashboard', to: '/admin', description: 'Overview and stats', tone: 'dashboard'},
+  // {label: 'Content', to: '/admin/content', description: 'Pages, ministries, and site copy', tone: 'content'},
   {label: 'Events', to: '/admin/events', description: 'Custom one-off events', tone: 'events'},
   {label: 'RSVPs', to: '/admin/rsvps', description: 'Event registrations', tone: 'rsvps'},
   {label: 'Inbox', to: '/admin/inbox', description: 'Contact and connect messages', tone: 'inbox'},

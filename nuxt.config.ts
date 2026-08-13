@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: {enabled: process.env.NODE_ENV === 'development'},
 
-  modules: ['@nuxt/content', '@nuxtjs/supabase', '@nuxt/image'],
+  modules: ['@nuxt/content', '@nuxtjs/supabase', '@nuxt/image', 'nuxt-studio'],
 
   css: ['~/assets/css/main.css', '~/assets/css/landing.css'],
 
@@ -38,9 +38,16 @@ export default defineNuxtConfig({
     },
   },
 
-  content: {
-    preview: {
-      api: 'https://api.nuxt.studio',
+  content: {},
+
+  studio: {
+    route: '/admin/content',
+    repository: {
+      provider: 'github',
+      owner: 'Paul-Babalola',
+      repo: 'wolc',
+      branch: 'main',
+      rootDir: 'wolc-web',
     },
   },
 
@@ -68,6 +75,7 @@ export default defineNuxtConfig({
     '/ministries/**': {isr: 3600},
     '/sermons/**': {isr: 3600},
     '/events/**': {isr: 300},
+    '/admin/content': {ssr: true},
     '/admin/**': {ssr: false},
     '/login': {ssr: false},
   },
