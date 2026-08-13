@@ -2,13 +2,15 @@
 const route = useRoute()
 const slug = route.params.slug as string
 
-const {data: ministry} = await useAsyncData(`ministry-${slug}`, () =>
-  queryCollection('ministries').where('slug', '=', slug).first(),
-)
+const {data: ministry} = await useAsyncData(`ministry-${slug}`, async () => {
+  const result = await queryCollection('ministries').where('slug', '=', slug).first()
+  return result ?? null
+})
 
-const {data: settings} = await useAsyncData(`ministry-settings-${slug}`, () =>
-  queryCollection('settings').first(),
-)
+const {data: settings} = await useAsyncData(`ministry-settings-${slug}`, async () => {
+  const result = await queryCollection('settings').first()
+  return result ?? null
+})
 
 if (!ministry.value) {
   throw createError({statusCode: 404, statusMessage: 'Ministry not found', fatal: true})

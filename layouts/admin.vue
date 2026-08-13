@@ -1,47 +1,67 @@
 <script setup lang="ts">
-import logoUrl from '~/assets/css/images/logo.png'
+import logoUrl from "~/assets/css/images/logo.png";
 
-const supabase = useSupabaseClient()
-const user = useSupabaseUser()
-const route = useRoute()
-const mobileOpen = ref(false)
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
+const route = useRoute();
+const mobileOpen = ref(false);
 
-const {items} = useAdminNav()
+const { items } = useAdminNav();
 
 const userInitial = computed(() => {
-  const email = user.value?.email || ''
-  return email ? email.charAt(0).toUpperCase() : '?'
-})
+  const email = user.value?.email || "";
+  return email ? email.charAt(0).toUpperCase() : "?";
+});
 
 const displayName = computed(() => {
-  const email = user.value?.email || ''
-  if (!email) return 'Staff'
-  const local = email.split('@')[0] || 'Staff'
+  const email = user.value?.email || "";
+  if (!email) return "Staff";
+  const local = email.split("@")[0] || "Staff";
   return local
     .split(/[._-]+/)
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ')
-})
+    .join(" ");
+});
 
-const activeLabel = computed(() => items.value.find((item) => item.active)?.label || 'Admin')
+const activeLabel = computed(
+  () => items.value.find((item) => item.active)?.label || "Admin",
+);
+
+const { confirm: confirmAction } = useAdminConfirm();
 
 async function signOut() {
-  await supabase.auth.signOut()
-  await navigateTo('/login')
+  const ok = await confirmAction({
+    title: "Sign out",
+    message: "Sign out of the admin dashboard?",
+    confirmLabel: "Sign out",
+  });
+  if (!ok) return;
+
+  await supabase.auth.signOut();
+  await navigateTo("/login");
 }
 
-watch(() => route.path, () => {
-  mobileOpen.value = false
-})
+watch(
+  () => route.path,
+  () => {
+    mobileOpen.value = false;
+  },
+);
 </script>
 
 <template>
-  <div class="admin-root" :class="{'admin-nav-open': mobileOpen}">
+  <div class="admin-root" :class="{ 'admin-nav-open': mobileOpen }">
     <aside class="admin-sidebar" aria-label="Admin navigation">
       <div class="admin-brand">
         <NuxtLink to="/admin" class="admin-brand-link">
-          <img :src="logoUrl" alt="RCCG Word of Life Center" class="admin-brand-logo" width="140" height="28">
+          <img
+            :src="logoUrl"
+            alt="RCCG Word of Life Center"
+            class="admin-brand-logo"
+            width="140"
+            height="28"
+          />
         </NuxtLink>
       </div>
 
@@ -51,14 +71,16 @@ watch(() => route.path, () => {
           :key="item.to"
           :to="item.to"
           class="admin-nav-link"
-          :class="{active: item.active}"
+          :class="{ active: item.active }"
         >
           <span class="admin-nav-icon">
             <AdminIcon :name="item.tone" />
           </span>
           <span class="admin-nav-text">
             <span class="admin-nav-label">{{ item.label }}</span>
-            <span v-if="item.description" class="admin-nav-desc">{{ item.description }}</span>
+            <span v-if="item.description" class="admin-nav-desc">{{
+              item.description
+            }}</span>
           </span>
         </NuxtLink>
       </nav>
@@ -73,8 +95,16 @@ watch(() => route.path, () => {
         </div>
 
         <div class="admin-sidebar-actions">
-          <NuxtLink class="admin-foot-link" to="/" target="_blank">View public site</NuxtLink>
-          <button class="admin-foot-link admin-foot-link--button" type="button" @click="signOut">Sign out</button>
+          <NuxtLink class="admin-foot-link" to="/" target="_blank"
+            >View public site</NuxtLink
+          >
+          <button
+            class="admin-foot-link admin-foot-link--button"
+            type="button"
+            @click="signOut"
+          >
+            Sign out
+          </button>
         </div>
       </div>
     </aside>
@@ -90,13 +120,19 @@ watch(() => route.path, () => {
     <div class="admin-main-wrap">
       <header class="admin-header">
         <div class="admin-header-start">
-          <p class="admin-welcome">Welcome back, <strong>{{ displayName }}</strong></p>
+          <p class="admin-welcome">
+            Welcome back, <strong>{{ displayName }}</strong>
+          </p>
           <p class="admin-header-page">{{ activeLabel }}</p>
         </div>
 
         <div class="admin-header-end">
-          <button class="admin-menu-btn btn btn-ghost-dark" type="button" @click="mobileOpen = !mobileOpen">
-            {{ mobileOpen ? 'Close' : 'Menu' }}
+          <button
+            class="admin-menu-btn btn btn-ghost-dark"
+            type="button"
+            @click="mobileOpen = !mobileOpen"
+          >
+            {{ mobileOpen ? "Close" : "Menu" }}
           </button>
 
           <div v-if="user?.email" class="admin-profile">
@@ -115,7 +151,7 @@ watch(() => route.path, () => {
           :key="item.to"
           :to="item.to"
           class="admin-nav-link"
-          :class="{active: item.active}"
+          :class="{ active: item.active }"
         >
           <span class="admin-nav-icon">
             <AdminIcon :name="item.tone" />
@@ -130,9 +166,11 @@ watch(() => route.path, () => {
         <slot />
       </main>
     </div>
+
+    <AdminConfirmModal />
   </div>
 </template>
 
 <style>
-@import '~/assets/css/admin.css';
+@import "~/assets/css/admin.css";
 </style>

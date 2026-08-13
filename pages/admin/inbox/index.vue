@@ -1,46 +1,63 @@
 <script setup lang="ts">
-definePageMeta({layout: 'admin'})
+definePageMeta({ layout: "admin" });
 
 interface ContactMessage {
-  id: string
-  kind: 'contact' | 'connect'
-  name: string
-  email: string
-  phone: string | null
-  message: string | null
-  handled_at: string | null
-  created_at: string
+  id: string;
+  kind: "contact" | "connect";
+  name: string;
+  email: string;
+  phone: string | null;
+  message: string | null;
+  handled_at: string | null;
+  created_at: string;
 }
 
-const tab = ref<'all' | 'contact' | 'connect'>('all')
-const updatingId = ref<string | null>(null)
-const actionError = ref('')
+const { confirm: confirmAction } = useAdminConfirm();
 
-const query = computed(() => (tab.value === 'all' ? {} : {kind: tab.value}))
+const tab = ref<"all" | "contact" | "connect">("all");
+const updatingId = ref<string | null>(null);
+const actionError = ref("");
 
-const {data: messages, pending, error, refresh} = await useFetch<ContactMessage[]>('/api/admin/contact-messages', {
+const query = computed(() => (tab.value === "all" ? {} : { kind: tab.value }));
+
+const {
+  data: messages,
+  pending,
+  error,
+  refresh,
+} = await useFetch<ContactMessage[]>("/api/admin/contact-messages", {
   query,
   default: () => [],
-})
+});
 
 async function toggleHandled(item: ContactMessage) {
-  updatingId.value = item.id
-  actionError.value = ''
+  const isHandled = !!item.handled_at;
+  const ok = await confirmAction({
+    title: isHandled ? "Reopen message" : "Mark as handled",
+    message: isHandled
+      ? `Reopen the message from ${item.name}? It will show as open again.`
+      : `Mark the message from ${item.name} as handled?`,
+    confirmLabel: isHandled ? "Reopen" : "Mark handled",
+  });
+  if (!ok) return;
+
+  updatingId.value = item.id;
+  actionError.value = "";
 
   try {
     await $fetch(`/api/admin/contact-messages/${item.id}`, {
-      method: 'PATCH',
-      body: {handled: !item.handled_at},
-    })
-    await refresh()
+      method: "PATCH",
+      body: { handled: !item.handled_at },
+    });
+    await refresh();
   } catch (err: any) {
-    actionError.value = err?.statusMessage || 'Could not update message.'
+    actionError.value = err?.statusMessage || "Could not update message.";
   } finally {
-    updatingId.value = null
+    updatingId.value = null;
   }
 }
 
-useSiteSeo({title: 'Inbox', description: 'Staff inbox.', noindex: true})
+useSiteSeo({ title: "Inbox", description: "Staff inbox.", noindex: true });
 </script>
 
 <template>
@@ -49,18 +66,42 @@ useSiteSeo({title: 'Inbox', description: 'Staff inbox.', noindex: true})
       <div>
         <h1>Inbox</h1>
         <p class="admin-page-lead">
-          Contact form submissions and connect-card messages from the public site.
+          Contact form submissions and connect-card messages from the public
+          site.
         </p>
       </div>
       <div class="admin-page-actions">
-        <button class="btn btn-ghost-dark" type="button" @click="refresh()">Refresh</button>
+        <button class="btn btn-ghost-dark" type="button" @click="refresh()">
+          Refresh
+        </button>
       </div>
     </div>
 
     <div class="admin-tabs">
-      <button class="admin-tab" :class="{active: tab === 'all'}" type="button" @click="tab = 'all'">All</button>
-      <button class="admin-tab" :class="{active: tab === 'contact'}" type="button" @click="tab = 'contact'">Contact</button>
-      <button class="admin-tab" :class="{active: tab === 'connect'}" type="button" @click="tab = 'connect'">Connect</button>
+      <button
+        class="admin-tab"
+        :class="{ active: tab === 'all' }"
+        type="button"
+        @click="tab = 'all'"
+      >
+        All
+      </button>
+      <button
+        class="admin-tab"
+        :class="{ active: tab === 'contact' }"
+        type="button"
+        @click="tab = 'contact'"
+      >
+        Contact
+      </button>
+      <button
+        class="admin-tab"
+        :class="{ active: tab === 'connect' }"
+        type="button"
+        @click="tab = 'connect'"
+      >
+        Connect
+      </button>
     </div>
 
     <section class="admin-panel">
@@ -79,8 +120,11 @@ useSiteSeo({title: 'Inbox', description: 'Staff inbox.', noindex: true})
           <div>
             <div class="admin-list-title-row">
               <h3>{{ item.name }}</h3>
-              <span class="admin-pill" :class="item.handled_at ? 'muted' : 'warn'">
-                {{ item.handled_at ? 'Handled' : 'Open' }}
+              <span
+                class="admin-pill"
+                :class="item.handled_at ? 'muted' : 'warn'"
+              >
+                {{ item.handled_at ? "Handled" : "Open" }}
               </span>
               <span class="admin-pill info">{{ item.kind }}</span>
             </div>
@@ -88,7 +132,9 @@ useSiteSeo({title: 'Inbox', description: 'Staff inbox.', noindex: true})
               <a :href="`mailto:${item.email}`">{{ item.email }}</a>
               <span v-if="item.phone"> · {{ item.phone }}</span>
             </p>
-            <p class="admin-meta">Received: {{ formatAdminWhen(item.created_at) }}</p>
+            <p class="admin-meta">
+              Received: {{ formatAdminWhen(item.created_at) }}
+            </p>
             <p v-if="item.message" class="admin-message">{{ item.message }}</p>
           </div>
 
@@ -99,7 +145,13 @@ useSiteSeo({title: 'Inbox', description: 'Staff inbox.', noindex: true})
               :disabled="updatingId === item.id"
               @click="toggleHandled(item)"
             >
-              {{ updatingId === item.id ? 'Saving…' : item.handled_at ? 'Reopen' : 'Mark handled' }}
+              {{
+                updatingId === item.id
+                  ? "Saving…"
+                  : item.handled_at
+                    ? "Reopen"
+                    : "Mark handled"
+              }}
             </button>
           </div>
         </li>

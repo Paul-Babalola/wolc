@@ -1,12 +1,7 @@
 title: RCCG
-subtitle: Word of Life Center
-tagline: Making many mighty through the Word and the Holy Spirit.
-serviceTimes: Sundays at 10:00 AM · Wednesdays Bible Study at 7:00 PM
 address: 11313 Lockwood Dr, Silver Spring MD 20904
-mapUrl: https://maps.google.com/?q=11313+Lockwood+Dr,+Silver+Spring,+MD+20904
 email: admin@rccgwordoflifecenter.org
-phone: 301-637-0122
-paypalDonateUrl: https://www.paypal.com/donate/?hosted_button_id=E49YRWWV6Q8ZW
+facebookLiveUrl: https://www.facebook.com/rccg.wolc/live
 images:
   hero: /images/site/homepage-hero.jpeg
   aboutChurch: /images/site/about-church.jpeg
@@ -21,14 +16,9 @@ images:
   connectGroup: /images/site/page-header-connect-group.jpg
   events: /images/site/event-worship.jpg
 liveStreamUrl: https://www.youtube.com/@WolcNetwork/streams
-facebookLiveUrl: https://www.facebook.com/rccg.wolc/live
-socials:
-  - platform: YouTube
-    url: https://www.youtube.com/@WolcNetwork
-  - platform: Instagram
-    url: https://www.instagram.com/rccgwolc
-  - platform: Facebook
-    url: https://www.facebook.com/rccg.wolc
+mapUrl: https://maps.google.com/?q=11313+Lockwood+Dr,+Silver+Spring,+MD+20904
+paypalDonateUrl: https://www.paypal.com/donate/?hosted_button_id=E49YRWWV6Q8ZW
+phone: 301-637-0122
 primaryNav:
   - label: I'm New
     href: /visit
@@ -74,3 +64,13 @@ primaryNav:
   - label: Give
     href: /give
     highlight: true
+serviceTimes: Sundays at 10:00 AM · Wednesdays Bible Study at 7:00 PM
+socials:
+  - platform: YouTube
+    url: https://www.youtube.com/@WolcNetwork
+  - platform: Instagram
+    url: https://www.instagram.com/rccgwolc
+  - platform: Facebook
+    url: https://www.facebook.com/rccg.wolc
+subtitle: Word of Life Center
+tagline: Making many mighty through the Word and the Holy Spirit.
